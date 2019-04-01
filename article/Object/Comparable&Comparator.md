@@ -51,7 +51,6 @@ public static <T> void sort(List<T> list, Comparator<? super T> c)
 
 - `return i1-i2`为常见编程错误。因为int不够大，上述运算可以导致int类型溢出并返回负值，导致程序不正确
 
-- 
 
 
 ### 参考
