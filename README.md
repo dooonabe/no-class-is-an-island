@@ -10,4 +10,4 @@
 - [模板方法模式](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Design%20Patterns/method%20template.md)
 
 ### 常用算法
-- [归并排序]()
+- [归并排序](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Algorithm/Merge%20Sort.md)
