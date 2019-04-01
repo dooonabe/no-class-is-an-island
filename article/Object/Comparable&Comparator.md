@@ -14,7 +14,7 @@ boolean equals(Object obj)
 ```
 
 ## Comparable
-类实现了Comparable接口不仅可以用于此类对象间的等同行比较，还可以与泛型算法（generic algorithm）以及依赖于该接口的集合实现（collection implementation）进行协作。
+类实现了Comparable接口不仅可以用于此类对象间的等同性比较，还可以与泛型算法（generic algorithm）以及依赖于该接口的集合实现（collection implementation）进行协作。
 例如：
 - 集合工具类Collections的排序方法 
 ```
@@ -22,10 +22,10 @@ public static <T extends Comparable<? super T>> void sort(List<T> list)
 ```
 此方法接收一个实现Comparable的类对象列表，实现对此列表的排序。排序的规则来源于`compareTo`方法，此方法定义的排序规则被称为该类的自然排序（natural ordering）。
 
-- 如果一个对象被用于任何种类的排序容器（`TreeMap` `TreeSet`）中，那么它必须实现`Comparable`接口
+- 如果一个对象被用于任何种类的排序容器（`TreeMap` `TreeSet`）中，那么它必须实现Comparable接口
 
 ## Comparator
-Comparator更像是类排序功能的拓展。举个例子，一个交易指令实体大部分情况下会按照发生时间这个属性进行排序，但是在复盘时也可能会按照指令最终状态属性进行排序，这种情况下按照发生时间属性排序可以被定义为自然排序，实现Comprable接口定义这种排序规则，而最终状态的排序则可以实现Comparator接口定义。
+Comparator更像类排序功能的拓展。举个例子，一个交易指令实体大部分情况下会按照*发生时间*属性进行排序，但是在复盘时也可能会按照*指令最终状态*属性进行排序，这种情况下按照*发生时间*属性排序可以被定义为自然排序，实现Comprable接口定义这种排序规则，而*指令最终状态*的排序则可以实现Comparator接口定义。
 例如：
 
 - 集合工具类Collections的排序方法也支持外部排序规则
@@ -49,9 +49,7 @@ public static <T> void sort(List<T> list, Comparator<? super T> c)
 
 ## 注意事项
 
-- `return i1-i2`为常见编程错误
-
-int不够大，上述运算可以导致int类型溢出并返回负值
+- `return i1-i2`为常见编程错误。因为int不够大，上述运算可以导致int类型溢出并返回负值，导致程序不正确
 
 - 
 
