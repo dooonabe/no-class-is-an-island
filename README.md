@@ -7,4 +7,4 @@
 - [Map.Entry](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/Map.Entry.md)
 
 ### 设计模式
-- [模板设计模式](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Design%20Patterns/method%20template.md)
+- [模板方法模式](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Design%20Patterns/method%20template.md)
