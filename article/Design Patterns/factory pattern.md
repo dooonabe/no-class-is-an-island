@@ -16,8 +16,13 @@ public class Kudu{
   public Kudu(SimpleKuduFactory factory){
     this.factory = factory;
   }
-  // do something
+
+  public void start(){
+    factory.createTable(config);
+    // do something
+  }
 }
+
 ```
 
 
