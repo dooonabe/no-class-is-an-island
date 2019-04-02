@@ -5,6 +5,7 @@
 - [equals与hashCode]()
 
 ###  集合
+- [fail-fast机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/fail-fast.md)
 - [Map.Entry](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/Map.Entry.md)
 
 ### 并发
@@ -19,5 +20,5 @@
 ### 流式计算
 
 ### 中间件
-- [redis]
+- [Redis]()
 
