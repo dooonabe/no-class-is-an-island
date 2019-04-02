@@ -6,7 +6,7 @@
 
 *模板方法定义了一个算法的步骤，并允许子类为一个或者多个步骤提供实现*
 
-```
+```Java
 public abstract class MakeCard{
   
   void final start{
@@ -30,7 +30,7 @@ public abstract class MakeCard{
 }
 ```
 ### 定义钩子，改变算法流程
-```
+```Java
 public abstract class MakeCard{
   
   void final start{
@@ -66,6 +66,11 @@ public abstract class MakeCard{
 避免高层与低层组件之间有明显的环状依赖
 
 ### 与策略模式的比较
+
+策略模式的核心是**对象组合**与**委托模型**
+
+
+模板方法模式是最常被使用的设计模式
 
 ### 优点
 - 消除代码冗余
