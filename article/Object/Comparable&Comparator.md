@@ -17,7 +17,7 @@ boolean equals(Object obj)
 类实现了Comparable接口不仅可以用于此类对象间的等同性比较，还可以与泛型算法（generic algorithm）以及依赖于该接口的集合实现（collection implementation）进行协作。
 例如：
 - 集合工具类Collections的排序方法 
-```
+```Java
 public static <T extends Comparable<? super T>> void sort(List<T> list)
 ```
 此方法接收一个实现Comparable的类对象列表，实现对此列表的排序。排序的规则来源于`compareTo`方法，此方法定义的排序规则被称为该类的自然排序（natural ordering）。
@@ -29,11 +29,11 @@ Comparator更像类排序功能的拓展。举个例子，一个交易指令实�
 例如：
 
 - 集合工具类Collections的排序方法也支持外部排序规则
-```
+```Java
 public static <T> void sort(List<T> list, Comparator<? super T> c)
 ```
 进一步跟入代码发现原来实际使用了数组工具类Arrays的排序方法
-```
+```Java
 public static <T> void sort(T[] a, Comparator<? super T> c) {
     if (c == null) {
         sort(a);
@@ -55,7 +55,7 @@ Comparator提供了很多`default`方法，包括`reversed` `thenComparing`等�
 - `return i1-i2`为常见编程错误。因为int不够大，上述运算可以导致int类型溢出并返回负值，导致程序不正确
 
 - java.lang.String 朴实的compareTo方法实现
-```
+```Java
 public int compareTo(String anotherString) {
     int len1 = value.length;
     int len2 = anotherString.value.length;
