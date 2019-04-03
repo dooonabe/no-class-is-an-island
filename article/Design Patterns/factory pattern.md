@@ -47,7 +47,43 @@ public class Abstract Kudu{
 - 不要覆盖基类中已实现的方法
 
 ### 抽象工厂
+抽象工厂模式提供了一个接口，用于创建相关或依赖对象的家族，而不需要明确指定具体类。抽象工厂允许客户使用抽象的接口来创建一组相关的产品，而不需要关心实际的具体产品是什么。这样一来，客户就从具体的产品中被解耦了。
 
+
+```Java
+public interface AbstractFactory{
+  ProductA createProductA();
+  ProductB createProductB();  
+}
+
+public interface ProductA{
+}
+
+public interface ProductB{
+}
+
+public class Store{
+  private AbstractFactory factory;
+  
+  public void Store(AbstractFactory factory){
+    this.factory = factory;
+  }
+  
+  public ProductA sellA(){
+    renturn factory.createProductA();
+  }
+  
+  public ProductB sellB(){
+    renturn factory.createProductB();
+  }
+  
+}
+```
+
+### 区别
+
+工厂方法使用继承：把对象的创建委托给子类，子类实现工厂方法来创建对象。
+抽象工厂使用对象组合：对象的创建被实现在工厂接口所暴露出来的方法中。
 
 
 ### 参考
