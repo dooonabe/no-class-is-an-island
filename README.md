@@ -7,7 +7,7 @@
 ###  集合
 - [fail-fast机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/fail-fast.md)
 - [Map.Entry](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/Map.Entry.md)
-- [CAS](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/cas.md)
+- [CAS与ConcurrentHashMap](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/cas.md)
 ### 并发
 - [Volatile]()
 ### 设计模式
