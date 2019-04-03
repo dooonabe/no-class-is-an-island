@@ -49,8 +49,12 @@ public static <T> void sort(T[] a, Comparator<? super T> c) {
 ```
 而此方法也是上文中`Collections.sort(List<T> list)`方法最终的实现方法。
 
-- 倒置，连续比较
-Comparator提供了很多`default`方法，包括`reversed` `thenComparing`等，呼应了java8引入的流式编程理念。
+- 排序反转，int、long、double类型排序，连续排序
+
+Comparator提供了很多`default`方法，包括`reversed`，`comparingInt`,`thenComparing`等，呼应了java8引入的流式编程理念。
+```Java
+list.sort(Comparator.comparingLong(FundInstruction::getLStartTime).reversed())
+```
 
 ## 注意事项
 
