@@ -51,7 +51,7 @@ public static <T> void sort(T[] a, Comparator<? super T> c) {
 
 - 排序反转，int、long、double类型排序，连续排序
 
-Comparator提供了很多`default`方法，包括`reversed`，`comparingInt`,`thenComparing`等，呼应了java8引入的流式编程理念。
+Comparator提供了很多`default`方法，包括`reversed`,`comparingInt`,`thenComparing`等，呼应了java8引入的流式编程理念。
 ```Java
 list.sort(Comparator.comparingLong(FundInstruction::getLStartTime).reversed())
 ```
