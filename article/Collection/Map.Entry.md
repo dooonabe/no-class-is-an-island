@@ -1,7 +1,7 @@
 # Map.Entry
 
 ### java.util.Map
-```
+```Java
 interface Entry<K,V> {
 
     V getValue();
@@ -37,7 +37,7 @@ interface Entry<K,V> {
 ```
 
 ### java.util.AbstractMap
-```
+```Java
 public static class SimpleEntry<K,V> implements Entry<K,V>, java.io.Serializable{
 	private static final long serialVersionUID = -8499721149061103585L;
 	private final K key;
@@ -87,7 +87,7 @@ public static class SimpleEntry<K,V> implements Entry<K,V>, java.io.Serializable
 ```
 
 ### java.util.HashMap
-```
+```Java
 static class Node<K,V> implements Map.Entry<K,V> {
 	final int hash;
 	final K key;
