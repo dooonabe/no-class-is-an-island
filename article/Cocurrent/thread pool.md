@@ -141,6 +141,54 @@ ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, Ti
 - threadFactory 任务工厂
 - handler 饱和策略：如果队列已满，并且当前线程数目也已经达到上限，那么意味着线程池的处理能力已经达到了极限，此时需要拒绝新增加的任务。至于如何拒绝处理新增的任务，取决于线程池的饱和策略RejectedExecutionHandler
 
+ThreadPoolExecutor execute方法的实现：
+```Java
+public void execute(Runnable command) {
+	if (command == null)
+	    throw new NullPointerException();
+	/*
+	 * Proceed in 3 steps:
+	 *
+	 * 1. If fewer than corePoolSize threads are running, try to
+	 * start a new thread with the given command as its first
+	 * task.  The call to addWorker atomically checks runState and
+	 * workerCount, and so prevents false alarms that would add
+	 * threads when it shouldn't, by returning false.
+	 *
+	 * 2. If a task can be successfully queued, then we still need
+	 * to double-check whether we should have added a thread
+	 * (because existing ones died since last checking) or that
+	 * the pool shut down since entry into this method. So we
+	 * recheck state and if necessary roll back the enqueuing if
+	 * stopped, or start a new thread if there are none.
+	 *
+	 * 3. If we cannot queue task, then we try to add a new
+	 * thread.  If it fails, we know we are shut down or saturated
+	 * and so reject the task.
+	 */
+	int c = ctl.get();
+	// 如果正在执行的线程数小于corePoolSize，那么将此任务添加为线程
+	if (workerCountOf(c) < corePoolSize) {
+	    if (addWorker(command, true))
+		return;
+	    c = ctl.get();
+	}
+	// 任务成功执行，再次检查是不是应该增加一个线程或者上次进入这个方法的时候线程池已经关闭了
+	if (isRunning(c) && workQueue.offer(command)) {
+	    int recheck = ctl.get();
+	    if (! isRunning(recheck) && remove(command))
+		reject(command);
+	    else if (workerCountOf(recheck) == 0)
+                // 防止了SHUTDOWN状态下没有活动线程了，但是队列里还有任务没执行这种特殊情况。
+                // 添加一个null任务是因为SHUTDOWN状态下，线程池不再接受新任务
+		addWorker(null, false);
+	}
+	//如果不能加入任务到工作队列，将尝试使用任务新增一个线程，如果失败，说明线程池已经shutdown或者线程池已经达到饱和状态，所以reject这个任务
+	else if (!addWorker(command, false))
+	    reject(command);
+}
+```
+
 创建自己的线程池：
 ```Java
 //创建线程或线程池时请指定有意义的线程名称，方便出错时回溯
