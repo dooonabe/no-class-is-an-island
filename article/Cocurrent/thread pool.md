@@ -1,8 +1,9 @@
-# 线程池
+# 任务与执行机制
+开发者尽量不要自己编写工作队列，也应该尽量不直接使用线程（`Thread`既可以充当工作单元，又可以是执行机制）。Executor Framework设计的理念是将工作单元（任务）与执行机制分开：工作单元接口为`Runnable`与`Callable`，执行任务的通用机制是`ExecutorService`。
 
 ## Runnable与Callable
 
-# Thread
+## Thread
 
 - 休眠
 
@@ -23,7 +24,7 @@
 
 ```Java
 public interface ThreadFactory {
-  Thread newThread(Runnable r);
+	Thread newThread(Runnable r);
 }
 ```
 `java.util.concurrent.Executors.DefaultThreadFactory`
