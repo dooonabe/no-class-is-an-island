@@ -132,8 +132,23 @@ ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, Ti
  
 ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) 
 ```
+参数说明：
+- corePoolSize 线程池的基本线程数
+- maximumPoolSize 线程池中允许的最大线程数
+- keepAliveTime 如果一个线程处在空闲状态的时间超过了该属性值，就会因为超时而退出，但是不会低于corePoolSize
+- unit 时间单位
+- workQueue 工作队列
+- threadFactory 任务工厂
+- handler 饱和策略：如果队列已满，并且当前线程数目也已经达到上限，那么意味着线程池的处理能力已经达到了极限，此时需要拒绝新增加的任务。至于如何拒绝处理新增的任务，取决于线程池的饱和策略RejectedExecutionHandler
 
-
+创建自己的线程池：
+```Java
+//创建线程或线程池时请指定有意义的线程名称，方便出错时回溯
+ThreadFactory factory = new ThreadFactoryBuilder().setDaemon(true).setNameFormat("consumer-queue-%d").setPriority(Thread.MAX_PRIORITY).build();
+ThreadPoolExecutor executor = new ThreadPoolExecutor(5,10,60,TimeUnit.MINUTES,new ArrayBlockingQueue<Runnable>(100),factory);
+executor.execute();
+executor.shutdown();
+```
 
 ### 参考
 - 《JAVA编程思想》
