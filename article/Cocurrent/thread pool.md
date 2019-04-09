@@ -1,8 +1,6 @@
 # 任务与执行机制
 开发者尽量不要自己编写工作队列，也应该尽量不直接使用线程（`Thread`既可以充当工作单元，又可以是执行机制）。Executor Framework设计的理念是将工作单元（任务）与执行机制分开：工作单元接口为`Runnable`与`Callable`，执行任务的通用机制是`ExecutorService`。
 
-## Runnable与Callable
-
 ## Thread
 
 - 休眠
@@ -90,9 +88,54 @@ public interface ExecutorService extends Executor {
 通过观察`Executor`与`ExecutorService`接口，可以知道`executor`驱动`Runnable`对象，`submit`既可以驱动`Runnable`对象也可以驱动`Callable`对象
 
 ### SingleThreadExecutor
-SingleThreadExecutor可以保证任意时刻在任何线程中都只有唯一的任务在运行，序列化执行任务可以消除资源同步的问题。
+```SingleThreadExecutor```可以保证任意时刻在任何线程中都只有唯一的任务在运行，如果想SingleThreadExecutor提交多个任务，那么任务会被放入悬挂任务队列。序列化执行任务可以消除资源同步的问题。因为这个执行器不是一个池（pool），所以名字不是SingleThreadPool。
+
+### CachedThreadPool
+```CachedThreadPool```在程序执行过程中通常创建与所需数量相同的线程，然后在它回收旧线程时停止创建新线程。
+
+### FixedThreadPool
+```FixedThreadPool```数量为1会变成SingleThreadExecutor。
+
+### ScheduledThreadPool
+```ScheduledThreadPool```用来替代`java.util.Timer`，数量为1会变成SingleThreadScheduledExecutor。
+
+```Java
+TimerTask task = new TimerTask() {
+	@Override
+	public void run() {
+	}
+};
+Timer timer = new Timer();
+long delay = 0;
+timer.schedule(task, delay, period);
+```
+
+```Java
+Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {}, delay, period, TimeUnit.MINUTES);
+```
+
+## ThreadPoolExecutor
+
+Executors 返回的线程池对象的弊端如下：
+- `FixedThreadPool` 和 `SingleThreadExecutor`:
+允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。
+- `CachedThreadPool` 和 `ScheduledThreadPool`:
+允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。
+
+`ThreadPoolExecutor`是上述线程池（不包括`ScheduledThreadPool`）的父类，其构造方法有如下几种：
+```Java
+ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue)
+ 
+ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, RejectedExecutionHandler handler) 
+
+ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory) 
+ 
+ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) 
+```
+
 
 
 ### 参考
 - 《JAVA编程思想》
 - 《Effective Java》
+- 《阿里巴巴Java开发手册》
