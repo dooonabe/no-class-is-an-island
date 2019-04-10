@@ -167,13 +167,13 @@ public void execute(Runnable command) {
 	 * and so reject the task.
 	 */
 	int c = ctl.get();
-	// 如果正在执行的线程数小于corePoolSize，那么将此任务添加为线程
+	// 如果正在执行的线程数小于corePoolSize，那么将此任务添加为线程，返回
 	if (workerCountOf(c) < corePoolSize) {
 	    if (addWorker(command, true))
 		return;
 	    c = ctl.get();
 	}
-	// 任务成功执行，再次检查是不是应该增加一个线程或者上次进入这个方法的时候线程池已经关闭了
+	// 尝试将任务添加到workQueue
 	if (isRunning(c) && workQueue.offer(command)) {
 	    int recheck = ctl.get();
 	    if (! isRunning(recheck) && remove(command))
@@ -183,7 +183,7 @@ public void execute(Runnable command) {
                 // 添加一个null任务是因为SHUTDOWN状态下，线程池不再接受新任务
 		addWorker(null, false);
 	}
-	//如果不能加入任务到工作队列，将尝试使用任务新增一个线程，如果失败，说明线程池已经shutdown或者线程池已经达到饱和状态，所以reject这个任务
+	//如果添加到workQueue，说明线程池已经shutdown或者线程池已经达到饱和状态，所以reject这个任务
 	else if (!addWorker(command, false))
 	    reject(command);
 }
