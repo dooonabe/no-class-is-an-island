@@ -14,6 +14,11 @@
 - [任务定义与执行机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread%20pool.md)
 - [线程之间](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread.md)
 
+### JVM
+- [自动内存管理机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/JVM/memory%20control.md)
+- [虚拟机执行子系统](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/JVM/virtual%20machine.md)
+- [程序编译与代码优化](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/JVM/compiler.md)
+
 ### 设计模式
 - [设计原则](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Design%20Patterns/principle.md)
 - [模板方法模式](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Design%20Patterns/method%20template.md)
