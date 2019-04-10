@@ -27,5 +27,6 @@
 - [JStorm](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Stream/JStorm.md)
 
 ### 中间件
-- [Redis]()
+- [Redis](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/Redis.md)
+- [Kafka](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/Kafka.md)
 
