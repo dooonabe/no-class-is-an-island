@@ -3,7 +3,7 @@ CAS指令需要有三个操作数，分别是内存地址V，旧的预期值A，
 
 
 ### AtomicInteger实现原理
-不停地尝试执行CAS指令
+CAS配合失败重试
 
 ```Java
 java.util.concurrent.atomic.AtomicInteger
