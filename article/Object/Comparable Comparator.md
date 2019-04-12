@@ -82,7 +82,7 @@ public int compareTo(String anotherString) {
 }
 ```
 
-### 参考
+## 参考
 - 《JAVA编程思想》
 - 《Effective Java》
 -  [Java Sorting: Comparator vs Comparable Tutorial](https://www.digizol.com/2008/07/java-sorting-comparator-vs-comparable.html)
