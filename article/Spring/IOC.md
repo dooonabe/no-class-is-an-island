@@ -5,6 +5,54 @@
 
 ## 依赖注入，控制反转
 
+### Setter注入
+Setter注入的原理是通过属性的set方法，为属性赋值。
+
+
+例如配置类中的属性字段值注入：
+```Java
+application.properties
+spring.redis.clusterNodes[0]=test1
+spring.redis.clusterNodes[1]=test1
+spring.redis.clusterNodes[2]=test1
+spring.redis.port=6379
+spring.redis.timeout=1000
+
+
+@ConfigurationProperties(prefix = "spring.redis")
+@Component
+public class RedisConfig {
+    private List<String> clusterNodes;
+    private String port;
+    private String timeout;
+
+    public List<String> getClusterNodes() {
+        return clusterNodes;
+    }
+
+    public void setClusterNodes(List<String> clusterNodes) {
+        this.clusterNodes = clusterNodes;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    public String getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(String timeout) {
+        this.timeout = timeout;
+    }
+}
+
+```
+### 构造器注入
 
 
 
