@@ -10,6 +10,7 @@
 - [CAS与ConcurrentHashMap](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/cas.md)
 
 ### 并发
+- [sychronized与ReentrantLock](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/synchronized%20ReentrantLock.md)
 - [Volatile]()
 - [任务定义与执行机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread%20pool.md)
 - [线程之间](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread.md)
