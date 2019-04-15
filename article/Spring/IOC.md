@@ -5,7 +5,8 @@
 
 ## 依赖注入，控制反转
 
-### Setter注入
+### 手动装配与注入
+#### Setter注入
 Setter注入的原理是通过属性的set方法，为属性赋值。
 
 
@@ -52,7 +53,12 @@ public class RedisConfig {
 }
 
 ```
-### 构造器注入
+#### 构造器注入
+
+### 自动装配与注入
+#### byType
+#### byName
+#### constructor
 
 
 
