@@ -5,12 +5,22 @@
 
 ## 依赖注入，控制反转
 
-### 手动装配与注入
-#### Setter注入
-Setter注入的原理是通过属性的set方法，为属性赋值。
+### 装配与注入
+### 装配
+- 定义名叫redisClient的bean
+```Java
+@Configuration
+public class BeanConfiguration {
 
+    @Bean
+    public JedisCluster redisClient(){
+        return new JedisCluster();
+    }
+}
+```
+@Configuration注解标明BeanConfiguration类。注解@Configuration等价于＜beans＞标签。在该类中，每个使用注解@Bean的公共方法对应着一个＜bean＞标签的定义，即@Bean等价于＜bean＞标签。这种基于java的注解配置方式是在spring3.0中引入的。
 
-例如配置类中的属性字段值注入：
+- 根据配置文件装配bean
 ```Java
 application.properties
 spring.redis.clusterNodes[0]=test1
@@ -53,9 +63,23 @@ public class RedisConfig {
 }
 
 ```
+- 使用bean
+```Java
+@Test
+public void testByConfigurationAnnotation() throws Exception {
+    AnnotationConfigApplicationContext config=new AnnotationConfigApplicationContext(BeanConfiguration.class);
+    //名称必须与BeanConfiguration中工程方法名称一致
+    JedisCluster jedisCluster= (JedisCluster) config.getBean("redisClient");
+}
+```
+### 手动注入
+#### Setter注入
+Setter注入的原理是通过属性的set方法，为属性赋值。
+
+
 #### 构造器注入
 
-### 自动装配与注入
+### 自动注入
 #### byType
 #### byName
 #### constructor
