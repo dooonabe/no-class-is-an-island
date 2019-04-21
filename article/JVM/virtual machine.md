@@ -46,3 +46,16 @@ protected Class<?> loadClass(String name, boolean resolve)
     }
 }
 ```
+## 案例
+
+### Tomcat
+要解决的问题：
+- 不同应用使用的Java类库可以相互隔离，不同版本的第三方库
+- 不同应用使用的Java类库可以互相共享，避免不同应用的方法区过度膨胀
+- 服务器需要保证自身的安全不受部署的应用影响
+ 
+A：如果有10个Web应用程序都是用Spring来进行组织和管理的话，可以把Spring放到Common或Shared目录下让这些程序共享。Spring要对用户程序的类进行管理，自然要能访问到用户程序的类，而用户的程序显然是放在/WebApp/WEB-INFO目录中的，那么被CommonClassLoader或SharedClassLoader加载的Spring如何访问并不在其加载范围内的用户程序呢？
+
+
+
+Q：创建加载用户程序/WebApp/WEB-INFO目录中类的加载器，并将此加载器的parent属性设置CommonClassLoader或SharedClassLoader。
