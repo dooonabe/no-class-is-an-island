@@ -59,3 +59,44 @@ A：如果有10个Web应用程序都是用Spring来进行组织和管理的话�
 
 
 Q：创建加载用户程序/WebApp/WEB-INFO目录中类的加载器，并将此加载器的parent属性设置CommonClassLoader或SharedClassLoader。
+
+
+### 字节码生成技术于动态代理的实现
+```Java
+public class DynamicProxyTest {
+
+    interface IHello<T>{
+        T sayHello();
+    }
+
+    static class Hello implements IHello<String>{
+        @Override
+        public String sayHello() {
+            System.out.println("World");
+            return "World";
+        }
+    }
+
+    static class DynamicProxy implements InvocationHandler{
+        Object originalObj;
+
+        Object bind(Object o){
+            this.originalObj = o;
+            return Proxy.newProxyInstance(originalObj.getClass().getClassLoader(), originalObj.getClass().getInterfaces(), this);
+        }
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            return method.invoke(originalObj, args);
+        }
+
+    }
+    public static void main(String[] args) {
+        IHello hello = (IHello) new DynamicProxy().bind(new Hello());
+        hello.sayHello();
+    }
+}
+
+```
+### 远程执行功能
+在服务中执行一段代码，定位或排除问题
