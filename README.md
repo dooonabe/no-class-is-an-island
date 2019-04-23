@@ -8,6 +8,7 @@
 - [fail-fast机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/fail-fast.md)
 - [Map.Entry](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/Map.Entry.md)
 - [CAS与ConcurrentHashMap](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/cas.md)
+- [Disruptor与BlockingQueue](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/disruptor.md)
 
 ### 并发
 - [sychronized与ReentrantLock](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/synchronized%20ReentrantLock.md)
@@ -15,6 +16,7 @@
 - [任务定义与执行机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread%20pool.md)
 - [线程之间](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread.md)
 - [实战](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/Action.md)
+
 ### JVM
 - [自动内存管理机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/JVM/memory%20control.md)
 - [虚拟机执行子系统](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/JVM/virtual%20machine.md)
