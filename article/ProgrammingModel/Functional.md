@@ -66,8 +66,19 @@ Supplier<List<String>> listOfString = List::new;
 ```
 
 ### Anonymous Functions(Lambdas)
+- Anonymous
 
 
+A lambda expression is anonymous because it does not have an explicit name as a method normally would. It’s sort of like ananonymous class in that it does not have a declared name.
+- Function
+
+A lambda is like a method in that it has a list of parameters, a body, a return type, and a possible list of exceptions that can be thrown. However, unlike a method, it’s not declared as part of aparticular class.
+- Passed around
+
+
+A lambda expression can be passed as an argument to a method, stored in a variable, and also returned as a result.
+
+lambda表达式也就相当于一个匿名实现类，` @FunctionalInterface`注解说明此接口为函数性接口
 
 
 
