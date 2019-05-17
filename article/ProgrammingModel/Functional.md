@@ -80,7 +80,26 @@ A lambda expression can be passed as an argument to a method, stored in a variab
 
 lambda表达式也就相当于一个匿名实现类，` @FunctionalInterface`注解说明此接口为函数性接口
 
+### Optional
+```Java
+public String getCityForEvent(int id) {
+  Event event = getEventWithId(id);
+    if(event != null) {
+      Location location = event.getLocation();
+        if(location != null) {
+          return location.getCity();
+        }
+    }
+  return "TBC";
+}
 
+public String getCityForEvent(int id) {
+  Optional.ofNullable(getEventWithId(id))
+    .flatMap(this::getLocation)
+    .map(this::getCity)
+    .orElse("TBC");
+}
+```
 
 ### Functional Programming为Java带来了什么
 
