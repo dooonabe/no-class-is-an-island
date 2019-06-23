@@ -17,6 +17,44 @@
 
 后台线程是指在程序运行时候，在后台提供一种通用服务的线程，并且这种线程并不属于程序中不可或缺的部分。因此，当所有的非后台进程结束时，程序会终止，后台线程也会终止。`main()`是一个非daemon线程，使用方法为`thread.setDaemon(true)`并且要在线程启动之前设置此属性。
 
+## Runnable与Callable
+两者的区别: `Runnable`没有数据返回，`Callable`有数据返回，但是`ExecutorService`弥补了此项差异。通常任务返回结果的操作需要与`Future`和`CountDownLatch`配合使用。
+
+`java.lang.Runnable`
+```Java
+@FunctionalInterface
+public interface Runnable {
+    /**
+     * When an object implementing interface <code>Runnable</code> is used
+     * to create a thread, starting the thread causes the object's
+     * <code>run</code> method to be called in that separately executing
+     * thread.
+     * <p>
+     * The general contract of the method <code>run</code> is that it may
+     * take any action whatsoever.
+     *
+     * @see     java.lang.Thread#run()
+     */
+    public abstract void run();
+}
+```
+
+`java.util.concurrent.Callable`
+```Java
+@FunctionalInterface
+public interface Callable<V> {
+    /**
+     * Computes a result, or throws an exception if unable to do so.
+     *
+     * @return computed result
+     * @throws Exception if unable to compute a result
+     */
+    V call() throws Exception;
+}
+```
+
+
+
 ## ThreadFactory
 编写定制的ThreadFactory可以定制由Executor创建的线程属性，Executors中每个静态的ExecutorService创建方法都被重载为接收一个ThreadFactory对象，而这个对象将被用来创建新的线程。
 
@@ -55,6 +93,8 @@ static class DefaultThreadFactory implements ThreadFactory {
 	}
 }
 ```
+
+
 ## Executor
 Exector在客户端与任务执行之间提供了一个中间层，可以管理Thread的对象，简化并发编程
 
