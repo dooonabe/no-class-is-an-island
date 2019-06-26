@@ -239,6 +239,20 @@ executor.execute();
 executor.shutdown();
 ```
 
+## CountDownLatch
+循环不停的赛马，需要一圈赛完之后赛马在起跑线再次一同出发。
+
+```Java
+for(;;){
+  // n 数量
+  CountDownLatch latch = new CountDownLatch(n);
+  for(int i = 0; i < n; i++)
+    Future<Integer> result = executor.submit(()->{latch.countDown();return i;});  
+}
+```
+
+
+
 ### 参考
 - 《JAVA编程思想》
 - 《Effective Java》
