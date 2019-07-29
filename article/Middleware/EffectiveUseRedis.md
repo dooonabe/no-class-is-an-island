@@ -35,23 +35,21 @@ Redis数据库是一个支持分布式、基于内存存储的key-value数据库
 1. 加载缓存
 实现抽象类CacheLoader<k,v>的v load(k var1)方法，指定缓存要从哪里获取到。当开发者从cahce中取一个不存在的缓存项时，会出触发load操作，加载缓存到cahce
 2. 缓存回收
-
-基于容量的回收
+- 基于容量的回收
 maximumSize规定了缓存项数目的最大值。在cache中的缓存项的条数达到限定值之前，缓存就可能进行回收操作。cache将尝试回收最近没有使用或总体上很少使用的缓存项。
 
-定时回收
+- 定时回收
 目前有两种定时回收的方法：
 A.expireAfterAccess(long, TimeUnit)：缓存项在给定时间内没有被读/写访问，则回收。这种缓存的回收顺序和基于大小回收一样。
 B.expireAfterWrite(long, TimeUnit)：缓存项在给定时间内没有被写访问（创建或覆盖），则回收。如果认为缓存数据总是在固定时候后变得陈旧不可用，这种回收方式是可取的。
-cache不会主动清除超时的缓存项，需要开发者主动调用cleanup()方法
+**cache不会主动清除超时的缓存项，需要开发者主动调用cleanup()方法**
 
-显示清除
+- 显示清除
 任何时候都可以显式地清除缓存项：
 A.个别清除：cache.invalidate(key)
 B.批量清除：cache.invalidateAll(keys)
 C.清除所有缓存项：cache.invalidateAll()
-3.移除监听器
-
+3. 移除监听器
 RemovalCause中包含缓存项被移除的原因：替换，超时，大小等，开发者可以对由于不同原因被移除的缓存项做相应的处理。
 
 更多Guava Cache操作请参阅相关API手册
