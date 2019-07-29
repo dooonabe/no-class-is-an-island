@@ -6,16 +6,16 @@ Redis数据库是一个支持分布式、基于内存存储的key-value数据库
 
 在使用Redis数据库的过程中，笔者总结了一些使用Redis数据库的注意事项。
 
-### 避免短时间内频繁查询同一个key
-#### 问题展示
+## 避免短时间内频繁查询同一个key
+### 问题展示
 ![](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/1.png)
 
 在对程序性能优化的过程中，笔者在Redis集群的某节点下发现了如上图所示的操作日志（查看执行日志：在redis的bin目录下执行 sh ./redis-cli monitor可以查看当前节点的操作日志）
 
-#### 问题说明
+### 问题说明
 短时间内（1毫秒以内）程序不停地获取Redis中的某个key是没有意义的。一方面这些get操作得到的数据是不变的，另一方面这些大量的不必要操作会白白浪费Redis资源。
 
-#### 问题解决
+### 问题解决
 请想一下，怎么样才能避免掉这些重复的操作呢。
 开发人员在程序中使用本地缓存是一个不错的办法——程序查询Redis之前首先在本地缓存中做一次查询。
 
@@ -50,21 +50,28 @@ A.个别清除：cache.invalidate(key)
 B.批量清除：cache.invalidateAll(keys)
 C.清除所有缓存项：cache.invalidateAll()
 3. 移除监听器
+
+![](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/3.png)
+
 RemovalCause中包含缓存项被移除的原因：替换，超时，大小等，开发者可以对由于不同原因被移除的缓存项做相应的处理。
 
-更多Guava Cache操作请参阅相关API手册
+4. 更多Guava Cache操作请参阅相关API手册
 
-2.多用复合指令，减少与Redis交互次数
-问题展示：
+## 多用复合指令，减少与Redis交互次数
+### 问题展示
+![](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/4.png)
 
 上图是笔者在程序部署节点使用ping命令查看与 Redis集群某个节点的连通情况，通过观察可以看到连通耗时在130纳秒左右。
 
+![](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/5.png)
+
 上图是Redis集群某节点的执行耗时情况，图中类型的操作耗时在50纳秒左右
 
-问题说明：
+### 问题说明
 在生产环境中，访问Redis集群的程序往往与Redis集群不在同一个服务器节点上，这样就可能导致操作Redis的网络IO耗时比Redis执行命令的耗时更多。
 如果可以减少网络IO的耗时，是不是就可以让Redis多执行一些命令呢。
-问题解决：
+
+### 问题解决
 Redis是一种基于客户端-服务端模型以及请求/响应协议的TCP服务。
 通常情况下一个请求会遵循以下步骤：
 A.客户端向服务端发送一个查询请求，并监听Socket返回，通常是以阻塞模式，等待服务端响应。
@@ -92,31 +99,32 @@ B.服务端处理命令，并将结果返回给客户端。
 
 那么在实际应用中要怎么操作呢。
 
-1.批量执行命令
+1. 批量执行命令
 目前Java操作Redis主要有两个jar包可以选择，一个是Jedis库，一个是Redission库。以Jedis库为例说明，Jedis提供了很多批处理命令供开发者使用，像mget,mset这样的批量get/set方法；另外还有set数据到redis时，使用包含设置ttl的结合命令——set(final String key, final String value, final String nxxx, final String expx, final long time) 等等。
 
-2.Pipeline
+2. Pipeline
 批量执行命令可以被看做简化版的pipeline实现，因为开发者可以将不同类型的操作都在放同一个pipeline中执行。
 
 Jedis样例：
 目前Jedis 最新版本2.9.0没有提供集群模式下使用pipeline的方法，单个节点使用pipeline时，首先创建一个pipeline，之后将要操作Redis的命令添加到pipeline中，最后执行pipeline获取返回结果集。
 
-代码如下：
+![](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/6.png)
 
 pipeline处理的key要分布在同一个节点上，因为jedis表示集群中的某一个节点
 
 Redission样例：
 Redission很好地支持了在Redis集群上使用pipeline。
 
-代码如下：
+![](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/7.png)
 
-3.及时清理过期数据
-问题展示：
+## 及时清理过期数据
+### 问题展示
 
-问题说明：
+![](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/9.png)
+
+### 问题说明
 使用ttl 命令可以查看key的有效期，单位为秒，如果ttl返回值为-1，那么表示这个key如果不被用户主动删除，会永久存在。存放无用并且没有失效时间的数据，会造成内存资源地浪费。
-问题解决：
+
+### 问题解决
 1.程序及时删除掉Redis中的数据
 2.程序放置数据到Redis时设置数据过期时间，之后Redis会自动清除过期数据
-
-
