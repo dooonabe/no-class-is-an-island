@@ -33,6 +33,7 @@ Redis数据库是一个支持分布式、基于内存存储的key-value数据库
 ![](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/2.png)
 
 1. 加载缓存
+
 实现抽象类CacheLoader<k,v>的v load(k var1)方法，指定缓存要从哪里获取到。当开发者从cahce中取一个不存在的缓存项时，会出触发load操作，加载缓存到cahce
 2. 缓存回收
 - 基于容量的回收
@@ -120,11 +121,11 @@ Redission很好地支持了在Redis集群上使用pipeline。
 ## 及时清理过期数据
 ### 问题展示
 
-![](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/9.png)
+![](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/8.png)
 
 ### 问题说明
 使用ttl 命令可以查看key的有效期，单位为秒，如果ttl返回值为-1，那么表示这个key如果不被用户主动删除，会永久存在。存放无用并且没有失效时间的数据，会造成内存资源地浪费。
 
 ### 问题解决
-1.程序及时删除掉Redis中的数据
-2.程序放置数据到Redis时设置数据过期时间，之后Redis会自动清除过期数据
+1. 程序及时删除掉Redis中的数据
+2. 程序放置数据到Redis时设置数据过期时间，之后Redis会自动清除过期数据
