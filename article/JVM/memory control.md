@@ -10,7 +10,7 @@
 - 直接内存(Direct Memory)
 
 
-### 参考
+## 参考
 - 《深入理解Java虚拟机》
 -  [Java虚拟机原理图解之JVM运行时数据区](https://blog.csdn.net/luanlouis/article/details/40043991)
 
