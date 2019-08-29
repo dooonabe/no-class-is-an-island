@@ -7,11 +7,20 @@
 
 ### 装配与注入
 ### 装配
+#### 隐式的bean发现机制和自动装配
+- 组件扫描
+
+按照默认规则，Spring会以`@ComponentScan`注解的类所在的包为基础包扫描组件。
+- 自动装配
+
+#### 在XML中进行显式配置
+#### 在Java中进行显式配置 
 - 定义名叫redisClient的bean
 ```Java
 @Configuration
 public class BeanConfiguration {
-
+    
+    // 声明bean
     @Bean
     public JedisCluster redisClient(){
         return new JedisCluster();
@@ -96,3 +105,4 @@ Spring容器对于`@Resource`注解的name属性解析为bean的名字，type属
 
 ## 参考
 - [关于Spring IOC (DI-依赖注入)你需要知道的一切](https://blog.csdn.net/javazejian/article/details/54561302)
+- Spring in Action
