@@ -27,7 +27,8 @@ public class BeanConfiguration {
     }
 }
 ```
-@Configuration注解标明BeanConfiguration类。注解@Configuration等价于＜beans＞标签。在该类中，每个使用注解@Bean的公共方法对应着一个＜bean＞标签的定义，即@Bean等价于＜bean＞标签。这种基于java的注解配置方式是在spring3.0中引入的。
+
+@Configuration注解表明BeanConfiguration类是一个配置类，该类应该包含在Spring应用上下文中如何创建bean的细节。注解@Configuration等价于＜beans＞标签。在该类中，每个使用注解@Bean的公共方法对应着一个＜bean＞标签的定义，即@Bean等价于＜bean＞标签。这种基于java的注解配置方式是在spring3.0中引入的。
 
 - 根据配置文件装配bean
 ```Java
