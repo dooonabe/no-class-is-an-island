@@ -101,7 +101,7 @@ Setter注入的原理是通过属性的set方法，为属性赋值。
 Spring容器对于`@Resource`注解的name属性解析为bean的名字，type属性则解析为bean的类型。因此使用name属性，则按byName模式的自动注入策略，如果使用type属性则按 byType模式自动注入策略。倘若既不指定name也不指定type属性，Spring容器将通过反射技术默认按byName模式注入。
 #### constructor
 
-
+## BeanFactory ApplicationContext BeanDefinition
 
 
 ## 参考
