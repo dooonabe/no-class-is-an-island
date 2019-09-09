@@ -7,5 +7,5 @@
 ## ReentrantLock
 ReetrantLock(重入锁)的名字表明了其支持线程重入机制，也就是支持同步块对于同一条线程来说是可重入的。在这方面synchronized也是支持的。ReetrantLock与synchronized的不同之处有三个方面：
 
-- 
+ 
 
