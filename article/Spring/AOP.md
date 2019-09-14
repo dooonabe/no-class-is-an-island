@@ -10,6 +10,7 @@ package java.lang.reflect.InvocationHandler
 
 public interface InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args)
+        // 如何处理这些方法
         throws Throwable;
 }
 
@@ -26,5 +27,4 @@ public class Proxy implements java.io.Serializable {
     }
 
 } 
-
 ```
