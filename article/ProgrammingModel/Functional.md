@@ -1,8 +1,16 @@
 # Functional Programming Model
+## 具有普遍意义的基本构造单元
+- Filter(筛选)
+- Map(映射)
+- Reduce(折叠/化约)
+
+## 记忆与缓求值
 
 ## Java 8+
 ### Method References
-Java 8 开始引入了`Function`,`Consumer`,`Supplier`等基础类，从而将Functional Programming的思想引入到Java语言中。方法（函数）从此可以被当作参数来传递。
+
+Java 8 开始引入了`Function`,`Consumer`,`Supplier`等***函数式接口***，从而将Functional Programming的思想引入到Java语言中。方法（函数）从此可以被当作参数来传递。
+默认方法为装饰默认功能提供了便捷途径。
 ```Java
 public interface Function<T, R> {
   R apply(T t);
@@ -43,6 +51,8 @@ public interface Supplier<T> {
   T get();
 }
 ```
+
+SAM与Lambda携手，开发者可以用lambda块取代传统的匿名类来实例化一个接口。
 
 #### 方法引用方式
 - 静态方法引用
