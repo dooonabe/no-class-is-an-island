@@ -2,7 +2,7 @@
 
 ###  对象通用方法
 - [Comparable与Comparator](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Object/Comparable%20Comparator.md)
-- [equals与hashCode]()
+- [equals与hashCode](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Object/equals%20hashCode.md)
 - [Iterable与Iterator](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Object/Iterable%20Iterator.md)
 - [反射](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Object/reflect.md)
 - [函数式编程](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/ProgrammingModel/Functional.md)
