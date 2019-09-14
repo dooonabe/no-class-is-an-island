@@ -110,6 +110,7 @@ public String getCityForEvent(int id) {
     .orElse("TBC");
 }
 ```
-
+### Stream管道
+stream的操作分为中间操作与终结操作。
 ### Functional Programming为Java带来了什么
 
