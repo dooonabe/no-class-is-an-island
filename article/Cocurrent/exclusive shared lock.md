@@ -1,10 +1,12 @@
 # Exclusive Lock & Shared Lock
 
-Think of a lockable object as a blackboard (lockable) in a class room containing a teacher (writer) and many students (readers).
+想象***黑板***是需要同步的对象，操作***黑板***的对象包括一位老师，很多位学生。当老师在黑板上写字时，就是排他锁的场景:
+>Think of a lockable object as a blackboard (lockable) in a class room containing a teacher (writer) and many students (readers).
 While a teacher is writing something (exclusive lock) on the board:
-- Nobody can read it, because it's still being written, and she's blocking your view => If an object is exclusively locked, shared locks cannot be obtained.
-
-- Other teachers won't come up and start writing either, or the board becomes unreadable, and confuses students => If an object is exclusively locked, other exclusive locks cannot be obtained.
+- 所有人都不能读***黑板***上的内容。因为老师获得了排他锁，其他的共享锁不能获得。
+>- Nobody can read it, because it's still being written, and she's blocking your view => If an object is exclusively locked, shared locks cannot be obtained.
+- 其他老师也不能在***黑板***上书写，因为这样会让学生们困惑。如果一个对象上有排他锁，那么其他排他锁就不能再操作这个对象。
+>- Other teachers won't come up and start writing either, or the board becomes unreadable, and confuses students => If an object is exclusively locked, other exclusive locks cannot be obtained.
 
 When the students are reading (shared locks) what is on the board:
 
