@@ -18,7 +18,7 @@
 - [volatile](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/volatile.md)
 - [任务定义与执行机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread%20pool.md)
 - [线程之间](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread.md)
-- [排他锁 共享锁](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/exclusive%20shared%20lock.md)
+- [分布式锁](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/distributed%20lock.md)
 - [实战](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/Action.md)
 
 ### JVM
