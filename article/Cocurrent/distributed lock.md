@@ -39,4 +39,5 @@ RedLock
 
 ## 参考
 - [《Redis官方文档》用Redis构建分布式锁](http://ifeve.com/redis-lock/)
+- [How to do distributed locking](https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html)
 
