@@ -31,7 +31,7 @@ zookeeper watcher
 #### 单节点Redis
 原子性命令set(String key, String value, String nxxx, String expx, long time) + Lua(值相等时，删除此key)
 #### Redis Cluster
-rdlock
+RedLock
 
 
 
