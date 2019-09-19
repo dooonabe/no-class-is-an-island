@@ -24,4 +24,3 @@ While a teacher is writing something (exclusive lock) on the board:
 
 # Redis
 ## exclusive lock
-## shared lock
