@@ -1,6 +1,6 @@
 # 分布式锁
 
-# Exclusive Lock & Shared Lock
+## Exclusive Lock & Shared Lock
 Exclusive Lock又叫排他锁，独占锁，X锁，写锁等，Exclusive Lock是最常见的锁类型。
 
 Shared Lock又叫共享锁，S锁，读锁等，Shared Lock共享、高效。
@@ -21,15 +21,22 @@ While a teacher is writing something (exclusive lock) on the board:
 - 老师要等着学生们读完***黑板***上的内容之后才能再次写新的内容。*如果对象上有共享锁，那么排他锁需要等待。
 >- The teacher waits for them to finish reading before she clears the board to write more => If one or more shared locks already exist, exclusive locks cannot be obtained.
 
-# ZooKeeper
-## exclusive lock
+## ZooKeeper
+### exclusive lock
 zookeeper watcher
-## shared lock
+### shared lock
 
-# Redis
-## exclusive lock
-### 单节点Redis
+## Redis
+### exclusive lock
+#### 单节点Redis
 原子性命令set(String key, String value, String nxxx, String expx, long time) + Lua(值相等时，删除此key)
-### Redis Cluster
+#### Redis Cluster
 rdlock
+
+
+
+
+
+## 参考
+- [《Redis官方文档》用Redis构建分布式锁](http://ifeve.com/redis-lock/)
 
