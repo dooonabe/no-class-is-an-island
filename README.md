@@ -49,4 +49,5 @@
 - [Redis](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/Redis.md)
 - [高效使用Redis](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/EffectiveUseRedis.md)
 - [Kafka](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/Kafka.md)
+- [关于ZooKeeper](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Middleware/ZooKeeper.md)
 
