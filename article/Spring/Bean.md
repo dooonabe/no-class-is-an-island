@@ -9,7 +9,7 @@ Spring定义了多种作用域，可以基于这些作用域创建bean。
 - 原型（Prototype）：每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例。 
 - 请求（Rquest）：在Web应用中，为每个请求创建一个bean实例。
 - 会话（Session）：在Web应用中，为每个会话创建一个bean实例。
-- 全局会话（global-session）：在Web应用中，为全局会话创建一个bean实例。
+- 全局会话（Global-Session）：在Web应用中，为全局会话创建一个bean实例。
 
 ## Bean的生命周期
 
@@ -25,12 +25,29 @@ public interface DisposableBean {
 }
 
 ```
+
 ### *Aware interfaces for specific behavior
 ```Java
 public interface BeanNameAware extends Aware {
     void setBeanName(String var1);
 }
 
+```
+
+### BeanPostProcessor
+
+```Java
+public interface BeanPostProcessor {
+    @Nullable
+    default Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
+    }
+
+    @Nullable
+    default Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
+    }
+}
 ```
 ### Custom init() and destroy() methods in bean configuration file
 
