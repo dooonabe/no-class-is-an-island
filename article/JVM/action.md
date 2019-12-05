@@ -13,13 +13,9 @@
 1: you create your serialized data with a given library A (version X)
 2: you then try to read this data with the same library A (but version Y)
 ### 思路
-1. [《深入理解Java虚拟机》](https://book.douban.com/subject/24722612/)在介绍老版本tomcat的类加载实现中，介绍了tomcat如何兼容多spring版本——也就是隔离不通版本的相同类路径的类
+1. [《深入理解Java虚拟机》](https://book.douban.com/subject/24722612/)在介绍老版本tomcat的类加载实现中，介绍了tomcat如何兼容多spring版本——也就是隔离不通版本的相同类(相同类路径的类)
 2. jps -lmv: 查看完整的java启动命令
 3. 关注java的cp参数值，是否存在两个包中存在相同类的情况。
-
-
-
-
 
 
 ## 参考
