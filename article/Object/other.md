@@ -1,5 +1,10 @@
 # all that you can't leave behind
 
+## class
+```Java
+  Class c = Class.forName("com.axa.home");
+  Head head = (Head)c.newInstance();
+```
 
 ## i++ ++i
 i++ is known as Post Increment whereas ++i is called Pre Increment.
