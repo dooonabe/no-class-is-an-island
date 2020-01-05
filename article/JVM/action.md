@@ -10,8 +10,7 @@
 ## java.lang.RuntimeException: java.io.InvalidClassException: local class incompatible: stream classdesc serialVersionUID,local class serialVersionUID
 
 ### 原因描述
-1: you create your serialized data with a given library A (version X)
-2: you then try to read this data with the same library A (but version Y)
+you create your serialized data with a given library A (version X), then you try to read this data with the same library A (but version Y)
 ### 思路
 1. [《深入理解Java虚拟机》](https://book.douban.com/subject/24722612/)在介绍老版本tomcat的类加载实现中，介绍了tomcat如何兼容多spring版本——也就是隔离不通版本的相同类(相同类路径的类)
 2. jps -lmv: 查看完整的java启动命令
