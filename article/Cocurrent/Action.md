@@ -44,3 +44,9 @@ void callAppenders(LoggingEvent event) {
 
 ## 线程数量的合理值
 
+对于CPU密集型计算任务，线程数 = CPU核心数 + 1
+
+对于I/O密集型计算任务，线程数 = 2 * CPU核心数
+
+对于普通任务，线程数 = N（CPU核心数） * （1 + WT（线程等待时间） /  ST（线程时间运行时间））
+
