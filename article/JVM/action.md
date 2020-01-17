@@ -17,5 +17,7 @@ you create your serialized data with a given library A (version X), then you try
 3. 关注java的cp参数值，是否存在两个包中存在相同类的情况。
 
 
+## GC对array对象的影响最小 
+
 ## 参考
 - [Java classpath](https://howtodoinjava.com/java/basics/java-classpath/)
