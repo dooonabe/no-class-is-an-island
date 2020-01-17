@@ -40,3 +40,7 @@ void callAppenders(LoggingEvent event) {
 ```
 ### 结论
 日志工程的代码中存在`synchronized`方法，导致很多调用日志对象的方法在高并发情况下出现了阻塞。升级log4j可以解决此问题。
+
+
+## 线程数量的合理值
+
