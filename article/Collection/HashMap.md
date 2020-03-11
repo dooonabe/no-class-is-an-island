@@ -21,6 +21,67 @@ result:
 hashmap size:98279
 concurrenthashmap size:100000
 ```
+### hashmap.put
+`java.util.HashMap`
+```Java
+// final修饰的方法不允许子类override
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+               boolean evict) {
+    Node<K,V>[] tab; Node<K,V> p; int n, i;
+    // transient Node<K,V>[] table 是hash桶
+    // 如过table为null或0，进行初始化
+    if ((tab = table) == null || (n = tab.length) == 0)
+        n = (tab = resize()).length;
+    // 如果hash bucket中hash位为空，那么直接将新节点写入
+    // 线程不安全，会有节点覆盖缺陷
+    if ((p = tab[i = (n - 1) & hash]) == null)
+        tab[i] = newNode(hash, key, value, null);
+    else {
+        Node<K,V> e; K k;
+        // hash bucket当前节点p与新节点(k,v) hash相同，key不同，
+        if (p.hash == hash &&
+            ((k = p.key) == key || (key != null && key.equals(k))))
+            e = p;
+        // hash bucket当前节点是treenode类型，用树增加节点方法增加节点
+        else if (p instanceof TreeNode)
+            e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+        else {
+        // hash bucket当前节点与新节点(k,v) hash相同，但是key不同，增加新节点到链表尾
+            for (int binCount = 0; ; ++binCount) {
+                if ((e = p.next) == null) {
+                    p.next = newNode(hash, key, value, null);
+                    // 判断hash bucket当前节点的链表长度是否大于等于TREEIFY_THRESHOLD
+                    if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                        // 链表转为红黑树(二叉查找树)
+                        treeifyBin(tab, hash);
+                    break;
+                }
+                // 节点已经存在
+                if (e.hash == hash &&
+                    ((k = e.key) == key || (key != null && key.equals(k))))
+                    break;
+                p = e;
+            }
+        }
+        // 返回oldValue
+        if (e != null) { // existing mapping for key
+            V oldValue = e.value;
+            if (!onlyIfAbsent || oldValue == null)
+                e.value = value;
+            afterNodeAccess(e);
+            return oldValue;
+        }
+    }
+    // fail-fast
+    ++modCount;
+    // resize
+    if (++size > threshold)
+        resize();
+    afterNodeInsertion(evict);
+    return null;
+}
+```
+
 ## 扩容
 ### 定义阈值 threshold
 `java.util.HashMap`
