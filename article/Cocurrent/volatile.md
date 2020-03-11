@@ -39,7 +39,7 @@ final static ExecutorService executorService = Executors.newFixedThreadPool(10);
 static volatile int count = 0;
 
 public static void main(String[] args) {
-    // 闭锁是一种同步工具，可以延迟线程的进度知道其到达终止状态
+    // 闭锁是一种同步工具，可以延迟线程的进直到其到达终止状态
     final CountDownLatch start = new CountDownLatch(1);
     Runnable task = () -> {
         try {
