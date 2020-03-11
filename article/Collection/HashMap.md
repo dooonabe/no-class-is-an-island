@@ -1,4 +1,26 @@
 # HashMap
+## 线程不安全
+HashMap与ConcurrentHashMap对比
+```Java
+public static void main(String[] args) {
+    List datas = new ArrayList();
+    for (int i = 0; i < 100000; i++) {
+        datas.add(i);
+    }
+    HashMap hashMap = new HashMap();
+    datas.parallelStream().forEach(i -> hashMap.put(i, i));
+
+    ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
+    datas.parallelStream().forEach(i -> concurrentHashMap.put(i, i));
+    System.out.println("hashmap size:" + hashMap.size());
+    System.out.println("concurrenthashmap size:" + concurrentHashMap.size());
+}
+```
+```Java
+result:
+hashmap size:98279
+concurrenthashmap size:100000
+```
 ## 扩容
 ### 定义阈值 threshold
 `java.util.HashMap`
