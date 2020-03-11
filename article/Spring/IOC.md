@@ -6,20 +6,19 @@
 - 管理Bean生命周期
 
 ## 低耦合，低侵入
-对象间的组合使用是常态，Spring IOC的设计目的是降低对象间的耦合度，以及代码的侵入度。
+对象间的组合使用是常态，Spring IOC的设计目的是降低对象间的耦合度，降低代码的侵入度。
 
 ## 依赖注入，控制反转
+控制反转是Spring的核心。
 
-### 装配与注入
-### 装配
-#### 隐式的bean发现机制和自动装配
+### 隐式的bean发现机制和自动装配
 - 组件扫描
 
 按照默认规则，Spring会以`@ComponentScan`注解的类所在的包为基础包扫描组件。
 - 自动装配
 
-#### 在XML中进行显式配置
-#### 在Java中进行显式配置 
+### 在XML中进行显式配置
+### 在Java中进行显式配置 
 - 定义名叫redisClient的bean
 ```Java
 @Configuration
@@ -87,24 +86,31 @@ public void testByConfigurationAnnotation() throws Exception {
     JedisCluster jedisCluster= (JedisCluster) config.getBean("redisClient");
 }
 ```
-### 手动注入
-#### Setter注入
+### Bean依赖注入
+依赖注入分为构造器注入与setter注入。
+
+#### 手动注入
+1.Setter注入
 Setter注入的原理是通过属性的set方法，为属性赋值。
 
-
 `<property></property>`
-#### 构造器注入
+2.构造器注入
+
 `<constructor-arg></constructor-arg>`
 
-### 自动注入
-#### byType
+#### 自动注入
+1.byType
 当存在多个相同类型的bean是，此方法会失败。
 通过`@Autowired`的使用标注到成员变量时不需要有set方法，`@Autowired`默认按类型匹配。
 
-#### byName
+2.byName
 如果`@Autowired`需要按名称(byName)匹配的话，可以使用`@Qualifier`注解与`@Autowired`结合，请注意必须在xml配置中启动注解驱动。
 Spring容器对于`@Resource`注解的name属性解析为bean的名字，type属性则解析为bean的类型。因此使用name属性，则按byName模式的自动注入策略，如果使用type属性则按 byType模式自动注入策略。倘若既不指定name也不指定type属性，Spring容器将通过反射技术默认按byName模式注入。
-#### constructor
+3.constructor
+
+## Bean生命周期
+实例化，依赖注入，回调扩展点
+
 
 ## BeanFactory ApplicationContext BeanDefinition
 
