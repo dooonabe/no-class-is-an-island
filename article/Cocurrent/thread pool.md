@@ -1,6 +1,7 @@
 # 任务与执行机制
 开发者尽量不要自己编写工作队列，也应该尽量不直接使用线程（`Thread`既可以充当工作单元，又可以是执行机制）。Executor Framework设计的理念是将工作单元（任务）与执行机制分开：工作单元接口为`Runnable`与`Callable`，执行任务的通用机制是`ExecutorService`。
 
+
 ## Thread
 
 - 休眠
@@ -238,6 +239,10 @@ ThreadPoolExecutor executor = new ThreadPoolExecutor(5,10,60,TimeUnit.MINUTES,ne
 executor.execute();
 executor.shutdown();
 ```
+
+## ThreadPoolExecutor与Thread相比的优势
+1. 任务定义与任务执行机制解耦
+2. 重用线程，减少线程创建与销毁的***巨大***开销
 
 ## CountDownLatch
 循环不停的赛马，需要一圈赛完之后赛马在起跑线再次一同出发。
