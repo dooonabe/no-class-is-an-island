@@ -12,6 +12,8 @@
 - [Map.Entry](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/Map.Entry.md)
 - [CAS与ConcurrentHashMap](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/cas.md)
 - [Disruptor与BlockingQueue](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/disruptor.md)
+- [并发容器](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/Concurrent%20Collections.md)
+
 
 ### 并发
 - [sychronized与ReentrantLock](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/synchronized%20ReentrantLock.md)
@@ -19,7 +21,6 @@
 - [任务定义与执行机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread%20pool.md)
 - [线程之间](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread.md)
 - [分布式锁](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/distributed%20lock.md)
-- [并发容器](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/Concurrent%20Collections.md)
 - [实战](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/Action.md)
 
 ### JVM
