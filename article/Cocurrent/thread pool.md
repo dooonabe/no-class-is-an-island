@@ -256,6 +256,20 @@ for(;;){
 }
 ```
 
+# Thread Pool
+
+## Thread Starvation DeadLock
+在线程池中如果任务依赖其他任务，可能会产生死锁。
+
+只有当任务都是*同类型的*并且*相互独立*时，线程池的性能才能达到最佳。
+
+## 实现资源最优利用率
+# CPU（计算）密集型任务
+线程池大小=cpu_core_size + 1
+
+# 包括I/O或阻塞操作任务
+线程池大小=cpu_core_size*target_cpu_utilization*(1+w/c)
+w/c:ratio of wait time to compute time
 
 
 ### 参考
