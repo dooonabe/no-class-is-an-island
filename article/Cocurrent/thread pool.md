@@ -264,13 +264,45 @@ for(;;){
 只有当任务都是*同类型的*并且*相互独立*时，线程池的性能才能达到最佳。
 
 ## 实现资源最优利用率
-# CPU（计算）密集型任务
+### CPU（计算）密集型任务
 线程池大小=cpu_core_size + 1
 
-# 包括I/O或阻塞操作任务
+### 包括I/O或阻塞操作任务
 线程池大小=cpu_core_size*target_cpu_utilization*(1+w/c)
 w/c:ratio of wait time to compute time
+## 饱和策略
+1. `AbortPolicy`
+2. `DiscardPolicy`
+3. `DiscardOldestPolicy`
+4. `CallerRunsPolicy`
+```Java
 
+/**
+* A handler for rejected tasks that runs the rejected task
+* directly in the calling thread of the {@code execute} method,
+* unless the executor has been shut down, in which case the task
+* is discarded.
+*/
+public static class CallerRunsPolicy implements RejectedExecutionHandler {
+/**
+ * Creates a {@code CallerRunsPolicy}.
+ */
+public CallerRunsPolicy() { }
+
+/**
+ * Executes task r in the caller's thread, unless the executor
+ * has been shut down, in which case the task is discarded.
+ *
+ * @param r the runnable task requested to be executed
+ * @param e the executor attempting to execute this task
+ */
+public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+    if (!e.isShutdown()) {
+	r.run();
+    }
+}
+}
+```
 
 ### 参考
 - 《JAVA编程思想》
