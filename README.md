@@ -18,7 +18,7 @@
 ### 并发
 - [sychronized与ReentrantLock](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/synchronized%20ReentrantLock.md)
 - [volatile](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/volatile.md)
-- [任务定义与执行机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread%20pool.md)
+- [thread pool](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread%20pool.md)
 - [线程之间](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread.md)
 - [分布式锁](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/distributed%20lock.md)
 - [实战](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/Action.md)
