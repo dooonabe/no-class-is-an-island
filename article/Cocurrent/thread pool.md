@@ -269,6 +269,7 @@ for(;;){
 
 ### 包括I/O或阻塞操作任务
 线程池大小=cpu_core_size*target_cpu_utilization*(1+w/c)
+
 w/c:ratio of wait time to compute time
 ## 饱和策略
 1. `AbortPolicy`
