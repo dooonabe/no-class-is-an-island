@@ -1,13 +1,13 @@
 # No class is an island
 
-###  对象通用方法
+### 对象通用方法
 - [Comparable与Comparator](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Object/Comparable%20Comparator.md)
 - [equals与hashCode](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Object/equals%20hashCode.md)
 - [Iterable与Iterator](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Object/Iterable%20Iterator.md)
 - [反射](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Object/reflect.md)
 - [函数式编程](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/ProgrammingModel/Functional.md)
 
-###  集合
+### 集合
 - [fail-fast机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/fail-fast.md)
 - [Map.Entry](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/Map.Entry.md)
 - [CAS与ConcurrentHashMap](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/cas.md)
@@ -39,8 +39,9 @@
 - [工厂模式](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Design%20Patterns/factory%20pattern.md)
 - [代理模式](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Design%20Patterns/proxy%20pattern.md)
 
-### 常用算法
-- [归并排序](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Algorithm/Merge%20Sort.md)
+### 算法分析
+- [分治算法](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Algorithm/divide%20and%20conquer.md)
+- [动态规划]()
 
 ### 流式计算
 - [Java Stream](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Stream/Java%20Stream.md)
