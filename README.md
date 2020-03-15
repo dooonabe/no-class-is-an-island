@@ -38,6 +38,7 @@
 - [模板方法模式](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Design%20Patterns/method%20template.md)
 - [工厂模式](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Design%20Patterns/factory%20pattern.md)
 - [代理模式](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Design%20Patterns/proxy%20pattern.md)
+- [生产者消费者模式](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Design%20Patterns/producer%20consumer.md)
 
 ### 算法分析
 - [分治算法](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Algorithm/divide%20and%20conquer.md)
