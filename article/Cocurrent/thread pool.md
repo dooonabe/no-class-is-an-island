@@ -271,6 +271,10 @@ for(;;){
 线程池大小=cpu_core_size*target_cpu_utilization*(1+w/c)
 
 w/c:ratio of wait time to compute time
+
+### 实践总结
+在某个基准负载下，分别设置不同大小的线程池来运行应用程序，并观察CPU利用率的水平
+
 ## 饱和策略
 1. `AbortPolicy`
 2. `DiscardPolicy`
