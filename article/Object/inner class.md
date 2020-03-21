@@ -10,3 +10,16 @@ OuterClass.InnerClass = out.new InnerClass();
 
 ## 静态内部类（嵌套类）
 静态内部类与外围内部类没有联系。
+
+## 多继承
+```Java
+class D{}
+
+abstract class E{}
+
+class X extends D{
+  E makeE(){
+    return new E(){};
+  }
+}
+```
