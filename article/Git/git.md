@@ -21,3 +21,6 @@ git branch -u <remote>/<branch>
 git fetch --all
 
 git branch -vv
+
+# 变基
+git rebase <branch>
