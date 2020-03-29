@@ -17,4 +17,5 @@ git checkout --track <remote>/<branch>
 git branch -u <remote>/<branch>
 
 ## 查看本地分支与远程分支关系
+git fetch --all
 git branch -vv
