@@ -27,3 +27,7 @@ git branch -vv
 
 # 变基
 git rebase <branch>
+  
+# 缓存验证信息
+git config --global credential.helper cache
+
