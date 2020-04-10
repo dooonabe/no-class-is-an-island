@@ -1,5 +1,8 @@
 # Git
 
+## 查看每次提交的统计信息(statistics)
+git log --stat
+
 ## 移除跟踪的文件
 git rm --cached submit.log
 
