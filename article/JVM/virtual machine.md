@@ -2,6 +2,54 @@
 代码编译结果从`本地机器码`转变为`字节码`，是存储格式发展的一小步，却是编程语言进步的一大步。
 
 ## 类加载
+有且仅有5种情况会触发类的初始化
+1. 遇到`new`, `getstatic`, `putstatic`, `invokestatic`四种字节码时，类会被初始化。被`final`修饰的静态字段在编译器会进行传播优化，所以因此触发类初始化
+2. 使用`java.lang.invoke`包的方法对类进行反射调用时
+3. 初始化一个类时，其父类还没有进行过初始化时
+4. 入口类(main class)
+5. `java.lang.invoke.MethodHandle`实例的最后解析结果是对`static`的操作(`REF_getStatic`,`REF_putStatic`,`REF_invokeStatic`)
+
+Difference between Reflection and MethodHandle
+```Java
+class Test {
+    static class ClassA {
+        public void println(String s) {
+            System.out.println(s);
+        }
+    }
+    
+    public static void main(String[] args) throws Throwable {
+        // MethodHandle
+        Object o = System.currentTimeMillis() % 2 == 0 ? new ClassA() : System.out;
+        getPrintLnMH(o).invokeExact("methodHandle");
+        //Reflection
+        o.getClass().getMethod("println", String.class).invoke(o, "reflection");
+    }
+
+    private static MethodHandle getPrintLnMH(Object receiver) throws NoSuchMethodException, IllegalAccessException {
+        // 第一个参数是返回值类类型，第二个参数是入参类类型
+        MethodType methodType = MethodType.methodType(void.class, String.class);
+        return MethodHandles.lookup().findVirtual(receiver.getClass(), "println", methodType).bindTo(receiver);
+    }
+}
+```
+1. Reflection模拟Java代码层次的方法调用，MethodHandle模拟字节码层次的方法调用
+2. Reflection是重量级，MethodHandle是轻量级
+3. MethodHandle理论上可以享受虚拟机的各种优化
+
+总之，Reflection面向的是Java语言，MethodHandle面向的是所有运行在虚拟机上的语言。
+
+
+
+### 加载
+1. 通过一个类的全限定名来获取定义此类的二进制字节流
+2. 将这个字节流所代表的**静态存储结构**转化为**方法区的运行时数据结构**
+3. 在内存中生成一个代表这个类的`java.lang.class`对象，作为方法区这个类的访问入口
+
+
+### 连接(linking)
+### 初始化
+
 ### 类加载器与双亲委派模型
 类加载器分为两种：
 - 启动类加载器（Bootstrap ClassLoader），属于JNI
