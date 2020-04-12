@@ -19,5 +19,15 @@ you create your serialized data with a given library A (version X), then you try
 
 ## GC对array对象的影响最小 
 
+
+## 如何降低Spring Cloud工程的jar包大小以及去除无效依赖让heap变小
+1. 类只有被用到才会被虚拟机初始化(加载到方法区)
+2. 使用`mvn dependency:analyze`分析依赖情况，手动删去无效的依赖引用
+3. 源码包与依赖包分离，启动源码包时用classpath指定依赖包目录
+```Shell
+java –classpath ... [same as (java -cp ...)]
+java -Dloader.path= ...
+```
+
 ## 参考
 - [Java classpath](https://howtodoinjava.com/java/basics/java-classpath/)

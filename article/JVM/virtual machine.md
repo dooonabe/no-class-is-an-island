@@ -48,7 +48,20 @@ class Test {
 
 
 ### 连接(linking)
+连接可以细分为验证，准备，解析。
+#### 准备
+正式为**类变量**分配内存并设置类变量初始值(使用方法区内存)
+#### 解析
+虚拟机将常量池中的符号引用替换为直接引用。
+
+类或接口的解析过程：
+
+1. 如果符号引用指向的不是数组类型，符号引用所在类的类加载器会加载目标的全限定名
+2. 是数组类型并且元素类型为对象，按照第1点加载数组元素类型，接着由**虚拟机**生成一个代表此**数组**维度和元素的数组对象
+3. 如果上述步骤没有出现异常，方法区中会有目标的访问接口了，之后还需进行**符号引用验证**(是否可访问，是否存在目标方法或属性)
+
 ### 初始化
+执行**类构造器**`<clint>()`。
 
 ### 类加载器与双亲委派模型
 类加载器分为两种：
@@ -94,6 +107,17 @@ protected Class<?> loadClass(String name, boolean resolve)
     }
 }
 ```
+
+## 虚拟机字节码执行引擎
+### 运行时栈帧结构
+1. 局部变量表
+2. 操作数栈
+3. 动态连接
+4. 方法返回地址
+
+### 分派
+外观类型(apparent type) VS 实际类型(actual type)
+
 ## 案例
 
 ### Tomcat
@@ -105,10 +129,10 @@ protected Class<?> loadClass(String name, boolean resolve)
 A：如果有10个Web应用程序都是用Spring来进行组织和管理的话，可以把Spring类库放到Common或Shared目录下让这些程序共享。Spring要对用户程序的类进行管理，自然要能访问到用户程序的类，而用户的程序显然是放在/WebApp/WEB-INFO目录中的，那么被CommonClassLoader或SharedClassLoader加载的Spring如何访问并不在其加载范围内的用户程序呢？
 
 
-Q：创建加载用户程序/WebApp/WEB-INFO目录中类的加载器，并将此加载器的parent属性设置CommonClassLoader或SharedClassLoader。
+Q：创建加载用户程序/WebApp/WEB-INFO目录中类的加载器，并将此加载器的parent属性设置为CommonClassLoader或SharedClassLoader。
 
 
-### 字节码生成技术于动态代理的实现
+### 字节码生成技术用于动态代理的实现
 ```Java
 public class DynamicProxyTest {
 
@@ -129,6 +153,7 @@ public class DynamicProxyTest {
 
         Object bind(Object o){
             this.originalObj = o;
+            // 生成了class文件，触发此class文件的类加载流程
             return Proxy.newProxyInstance(originalObj.getClass().getClassLoader(), originalObj.getClass().getInterfaces(), this);
         }
 
