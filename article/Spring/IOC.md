@@ -32,7 +32,7 @@ public class BeanConfiguration {
 }
 ```
 
-@Configuration注解表明BeanConfiguration类是一个配置类，该类应该包含在Spring应用上下文中如何创建bean的细节。注解@Configuration等价于＜beans＞标签。在该类中，每个使用注解@Bean的公共方法对应着一个＜bean＞标签的定义，即@Bean等价于＜bean＞标签。这种基于java的注解配置方式是在spring3.0中引入的。
+`@Configuration`注解表明`BeanConfiguration`类是一个配置类，该类应该包含在Spring应用上下文中如何创建bean的细节。注解`@Configuration`等价于`<beans>`标签。在该类中，每个使用注解`@Bean`的公共方法对应着一个`<bean>`标签的定义，即`@Bean`等价于`<bean>`标签。这种基于java的注解配置方式是在spring3.0中引入的。
 
 - 根据配置文件装配bean
 ```Java
@@ -87,13 +87,14 @@ public void testByConfigurationAnnotation() throws Exception {
 }
 ```
 ### Bean依赖注入
-依赖注入分为构造器注入与setter注入。
+依赖注入类型分为构造器注入与setter注入。依赖的注入可以是开发者手动编写或交给IOC自动完成。
 
 #### 手动注入
 1.Setter注入
 Setter注入的原理是通过属性的set方法，为属性赋值。
 
 `<property></property>`
+
 2.构造器注入
 
 `<constructor-arg></constructor-arg>`
@@ -106,14 +107,14 @@ Setter注入的原理是通过属性的set方法，为属性赋值。
 2.byName
 如果`@Autowired`需要按名称(byName)匹配的话，可以使用`@Qualifier`注解与`@Autowired`结合，请注意必须在xml配置中启动注解驱动。
 Spring容器对于`@Resource`注解的name属性解析为bean的名字，type属性则解析为bean的类型。因此使用name属性，则按byName模式的自动注入策略，如果使用type属性则按 byType模式自动注入策略。倘若既不指定name也不指定type属性，Spring容器将通过反射技术默认按byName模式注入。
+
 3.constructor
 
 ## Bean生命周期
-实例化，依赖注入，回调扩展点
+实例化，依赖注入，回调扩展点。
 
-
+[关于Spring Bean的一切](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Spring/Bean.md)
 ## BeanFactory ApplicationContext BeanDefinition
-
 
 ## 参考
 - [关于Spring IOC (DI-依赖注入)你需要知道的一切](https://blog.csdn.net/javazejian/article/details/54561302)
