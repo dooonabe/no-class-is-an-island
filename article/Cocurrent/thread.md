@@ -32,10 +32,51 @@
 ## 线程间的协作
 
 ### wait
+Causes the current thread to wait until another thread invokes the **{@link java.lang.Object#notify()}** method or the **{@link java.lang.Object#notifyAll()}** method **for this object**. In other words, this method behaves exactly as if it simply performs the call {@code wait(0)}.
+
 ### notify
+Wakes up a single thread that is waiting **on this object's monitor**. If any threads are waiting on this object, one of them is chosen to be awakened. The choice is arbitrary and occurs at the discretion of the implementation. A thread waits on an object's monitor by calling one of the {@code wait} methods.
+
+### notifyAll
+Wakes up all threads that are waiting **on this object's monitor**. A thread waits on an object's monitor by calling one of the {@code wait} methods.
+
 ### sleep
+
+Causes the currently executing thread to sleep (temporarily cease execution) for the specified number of milliseconds, subject to the precision and accuracy of system timers and schedulers. **The thread does not lose ownership of any monitors(不会释放任何锁)**.
+
 ### yield
+不释放锁
+A hint to the scheduler that the current thread is willing to yield its current use of a processor. The scheduler is free to ignore this hint. **And The thread does not lose ownership of any monitors(不会释放任何锁)**.
+
 ### join
+let main thread waits for this thread to die.
+
+```Java
+public static void main(String[] args) throws Exception {
+    Thread thread = new Thread(()->{
+            long times = 10L;
+            while (--times > 0){
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("inner thread die");
+        });
+    // 后台线程: 主线程运行完毕，程序即会退出；非后台线程：主线程运行完，并不会立即退出，而会等待非daemon线程运行完毕后程序退出 
+    thread.setDaemon(true);
+    thread.start();
+    // 子线程join()表示：主线程需等待子线程运行完毕，才能继续向下执行
+    thread.join();
+    System.out.println("main thread die");    
+}
+```
+
+```Java
+// wait notify 实现有界缓存
+
+```
 
 ## 线程开销
 
@@ -67,8 +108,16 @@ public String getStr(){
 ```Java
 // 排号(ticket)自旋锁的实现
 // 非适应性自选
+
+private final Queue taskQueue = new ArrayBlockingQueue();
+
 private int volatile num;
-    //todo
+
+public synchronized void ticket(){
+    queue.poll();
+}
+
+
 
 
 

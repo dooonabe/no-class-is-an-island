@@ -245,6 +245,8 @@ executor.shutdown();
 2. 重用线程，减少线程创建与销毁的***巨大***开销
 
 ## CountDownLatch
+compare with **object.join()**
+
 循环不停的赛马，需要一圈赛完之后赛马在起跑线再次一同出发。
 
 ```Java
@@ -252,10 +254,58 @@ for(;;){
   // n 数量
   CountDownLatch latch = new CountDownLatch(n);
   for(int i = 0; i < n; i++)
-    Future<Integer> result = executor.submit(()->{latch.countDown();return i;});  
+	// 也可以使用object.join()实现此效果
+    Future<Integer> result = executor.submit(()->{
+		latch.countDown();
+		return i;
+	});  
 }
 ```
 
+```Java
+// 子线程执行完毕之后，主线程再继续执行
+public static void main(String[] args) throws Exception {
+	List result = new ArrayList(2);
+	CountDownLatch countDownLatch = new CountDownLatch(2);
+	ExecutorService executorService = Executors.newFixedThreadPool(2);
+	long startTime = System.currentTimeMillis();
+	Future task1 =  executorService.submit(new Callable<Object>() {
+		/**
+			* Computes a result, or throws an exception if unable to do so.
+			*
+			* @return computed result
+			* @throws Exception if unable to compute a result
+			*/
+		@Override
+		public Object call() throws Exception {
+			Thread.sleep(3000);
+			countDownLatch.countDown();
+			return null;
+		}
+	});
+	result.add(task1);
+
+	Future task2 =  executorService.submit(new Callable<Object>() {
+		/**
+			* Computes a result, or throws an exception if unable to do so.
+			*
+			* @return computed result
+			* @throws Exception if unable to compute a result
+			*/
+		@Override
+		public Object call() throws Exception {
+			Thread.sleep(2000);
+			countDownLatch.countDown();
+			return null;
+		}
+	});
+	result.add(task2);
+	// 主线程等待
+	countDownLatch.await();
+	System.out.printf("time:"+ (System.currentTimeMillis() - startTime));
+}
+
+```
 # Thread Pool
 
 ## Thread Starvation DeadLock
@@ -281,7 +331,7 @@ w/c:ratio of wait time to compute time
 3. `DiscardOldestPolicy`
 4. `CallerRunsPolicy`
 ```Java
-
+// 调用者(任务生产者)执行任务策略
 /**
 * A handler for rejected tasks that runs the rejected task
 * directly in the calling thread of the {@code execute} method,
