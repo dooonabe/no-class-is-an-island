@@ -1,6 +1,15 @@
 # 实战
 
-## 版本太低，影响性能
+## 实现资源最优利用率
+### CPU（计算）密集型任务
+线程池大小=cpu_core_size + 1
+
+### 包括I/O或阻塞操作任务
+线程池大小=cpu_core_size*target_cpu_utilization*(1+w/c)
+
+w/c:ratio of wait time to compute time
+
+## 同步影响性能
 ### 现象
 运维人员反应在每天九点半左右，数据接收服务消费能力直线下降。
 
@@ -40,13 +49,3 @@ void callAppenders(LoggingEvent event) {
 ```
 ### 结论
 日志工程的代码中存在`synchronized`方法，导致很多调用日志对象的方法在高并发情况下出现了阻塞。升级log4j可以解决此问题。
-
-
-## 线程数量的合理值
-
-对于CPU密集型计算任务，线程数 = CPU核心数 + 1
-
-对于I/O密集型计算任务，线程数 = 2 * CPU核心数
-
-对于普通任务，线程数 = N（CPU核心数） * （1 + WT（线程等待时间） /  ST（线程时间运行时间））
-

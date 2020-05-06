@@ -1,5 +1,6 @@
 # HashMap
 ## 线程不安全
+### put丢失数据
 HashMap与ConcurrentHashMap对比
 ```Java
 public static void main(String[] args) {
@@ -21,7 +22,8 @@ result:
 hashmap size:98279
 concurrenthashmap size:100000
 ```
-### hashmap.put
+
+#### hashmap.put
 `java.util.HashMap`
 ```Java
 // final修饰的方法不允许子类override
@@ -34,6 +36,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
         n = (tab = resize()).length;
     // 如果hash bucket中hash位为空，那么直接将新节点写入
     // 线程不安全，会有节点覆盖缺陷
+    // n为2的n次幂时，hash mod n == hash & (n-1)
     if ((p = tab[i = (n - 1) & hash]) == null)
         tab[i] = newNode(hash, key, value, null);
     else {
@@ -80,6 +83,11 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
     afterNodeInsertion(evict);
     return null;
 }
+```
+
+### resize死循环
+```Java
+// todo
 ```
 
 ## 扩容

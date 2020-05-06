@@ -59,8 +59,9 @@ public long tryNext(int n) throws InsufficientCapacityException
     return next;
 }
 ```
-2. 
-3.
+2. 环形数组
+
+jvm gc对数组影响小，为了更快的定位元素，`Disruptor`使用递增的索引值配合长度为2的n次幂的数组长度来实现。`n为2的n次幂：n mod x = n & (x - 1) `
 
 ## how does JStorm to use Disruptor
 
