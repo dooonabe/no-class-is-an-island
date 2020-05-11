@@ -32,6 +32,9 @@ public class BeanConfiguration {
 }
 ```
 
+`@Component`与`@Bean`：Spring会扫描`@Component`，`@Service`，`@Repository`标注的类，之后自动装配bean；`@Bean`标注的是已经装配好的bean，Spring直接放入IOC容器即可。
+
+
 `@Configuration`注解表明`BeanConfiguration`类是一个配置类，该类应该包含在Spring应用上下文中如何创建bean的细节。注解`@Configuration`等价于`<beans>`标签。在该类中，每个使用注解`@Bean`的公共方法对应着一个`<bean>`标签的定义，即`@Bean`等价于`<bean>`标签。这种基于java的注解配置方式是在spring3.0中引入的。
 
 - 根据配置文件装配bean

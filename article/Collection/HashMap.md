@@ -157,17 +157,21 @@ final Node<K,V>[] resize() {
     int oldThr = threshold;
     int newCap, newThr = 0;
     if (oldCap > 0) {
+        // 扩容
         if (oldCap >= MAXIMUM_CAPACITY) {
             threshold = Integer.MAX_VALUE;
             return oldTab;
         }
         else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
                  oldCap >= DEFAULT_INITIAL_CAPACITY)
+            // 左移一位获取新的容量值
             newThr = oldThr << 1; // double threshold
     }
-    else if (oldThr > 0) // initial capacity was placed in threshold
+    else if (oldThr > 0)
+        // 初始化，使用构造函数中的传入值 (initial capacity was placed in threshold)
         newCap = oldThr;
-    else {               // zero initial threshold signifies using defaults
+    else {
+        // 初始化，使用默认值 (zero initial threshold signifies using defaults)
         newCap = DEFAULT_INITIAL_CAPACITY;
         newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
     }
@@ -177,19 +181,25 @@ final Node<K,V>[] resize() {
                   (int)ft : Integer.MAX_VALUE);
     }
     threshold = newThr;
+    // 申请新的node数组
     @SuppressWarnings({"rawtypes","unchecked"})
         Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
     table = newTab;
     if (oldTab != null) {
+        // 原本在node数组中的数据转移到新的node数组中，
+        // 为了加快重新计算所有key的位置，jdk1.8采用了如下的办法
         for (int j = 0; j < oldCap; ++j) {
             Node<K,V> e;
             if ((e = oldTab[j]) != null) {
                 oldTab[j] = null;
                 if (e.next == null)
+                    // 没有哈希冲突的node直接移动到新数组
                     newTab[e.hash & (newCap - 1)] = e;
                 else if (e instanceof TreeNode)
+                    // 
                     ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
-                else { // preserve order
+                else { 
+                    // 根据e.hash & oldCap 的运算结果，可以将链表分为两个
                     Node<K,V> loHead = null, loTail = null;
                     Node<K,V> hiHead = null, hiTail = null;
                     Node<K,V> next;
@@ -225,3 +235,5 @@ final Node<K,V>[] resize() {
     return newTab;
 }
  ```
+## 参考
+- [HashMap中的hash算法总结](https://blog.csdn.net/a314774167/article/details/100110216)

@@ -1,6 +1,49 @@
 Sort Algorithm In Jdk
 
 # Quick Sort
+```Java
+public int[] sortArray(int[] nums) {
+    if (nums == null || nums.length < 1) {
+        return nums;
+    }
+    quickSortArray(nums, 0, nums.length - 1);
+    return nums;
+}
+
+/**
+    * 快排
+    *
+    * @param nums  数组(引用)
+    * @param left  左边界
+    * @param right 右边界
+    */
+private void quickSortArray(int[] nums, int left, int right) {
+    if (right - left <= 0) {
+        return;
+    }
+    int mid = partition(nums, left, right);
+    quickSortArray(nums, left, mid);
+    quickSortArray(nums, mid + 1, right);
+}
+
+private int partition(int[] nums, int left, int right) {
+    // 选择第一个值作为中间值
+    int pivot = nums[left];
+    while (left < right) {
+        while (left < right && nums[right] >= pivot) {
+            right--;
+        }
+        nums[left] = nums[right];
+        while (left < right && nums[left] <= pivot) {
+            left++;
+        }
+        nums[right] = nums[left];
+    }
+    nums[left] = pivot;
+    return left;
+}
+```
+
 ```Java 
 public class Arrays{
 
@@ -11,7 +54,14 @@ public class Arrays{
 }
 ```
 
-# 归并排序
+# Merge Sort
+```Java
+
+
+```
+
+
+
 ```Java
 public class Arrays{
     /**

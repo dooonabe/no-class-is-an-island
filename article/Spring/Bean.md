@@ -13,6 +13,13 @@ Spring定义了多种作用域(Scope)，可以基于这些作用域创建bean。
 
 ## Bean的生命周期
 
+## 实例化
+
+循环依赖如果通过构造器注入，那么Spring也无法完成Bean的创建。
+
+## 依赖注入
+
+
 ### InitializingBean and DisposableBean callback interfaces
 
 ```Java
