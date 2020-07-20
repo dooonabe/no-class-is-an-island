@@ -25,9 +25,33 @@ git fetch --all
 
 git branch -vv
 
-# 变基
+## 变基
 git rebase <branch>
   
-# 缓存验证信息
+## 缓存验证信息
 git config --global credential.helper cache
 
+## git merge vs git rebase vs git cherry-pick
+```
+      A---B---C topic
+     /
+D---E---F---G master
+```
+- git merge topic 
+```
+      A---B---C topic
+     /         \  
+D---E---F---G---H master
+```
+- git rebase master topic
+```
+              A'--B'--C' topic
+             /
+D---E---F---G master
+```
+- git cherry-pick a b c
+```
+      A---B---C topic
+     /
+D---E---F---G---A'--B'--C' master
+```
