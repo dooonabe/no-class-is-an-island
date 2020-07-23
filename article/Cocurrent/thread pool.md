@@ -54,11 +54,10 @@ public interface Callable<V> {
 }
 ```
 
-
-
 ## ThreadFactory
 编写定制的ThreadFactory可以定制由Executor创建的线程属性，Executors中每个静态的ExecutorService创建方法都被重载为接收一个ThreadFactory对象，而这个对象将被用来创建新的线程。
 
+`java.util.concurrent.ThreadFactory`
 ```Java
 public interface ThreadFactory {
 	Thread newThread(Runnable r);
@@ -95,19 +94,22 @@ static class DefaultThreadFactory implements ThreadFactory {
 }
 ```
 
-
 ## Executor
 Exector在客户端与任务执行之间提供了一个中间层，可以管理Thread的对象，简化并发编程
 
+`java.util.concurrent.Executor`
 ```Java
 public interface Executor {
 	void execute(Runnable command);
 }
 
+// 生命周期接口
+//Executor: 运行，关闭，已终止
+//Executor中的任务：NEW,RUNNABLE,BLOCKED,TIMED_WAITING,WAITING,TERMINATED
 public interface ExecutorService extends Executor {
   
 	void shutdown();
-
+	
 	List<Runnable> shutdownNow();
 
 	boolean isShutdown();
@@ -127,19 +129,30 @@ public interface ExecutorService extends Executor {
 }
 ```
 
-通过观察`Executor`与`ExecutorService`接口，可以知道`executor`驱动`Runnable`对象，`submit`既可以驱动`Runnable`对象也可以驱动`Callable`对象
+通过观察`Executor`与`ExecutorService`接口，可以知道`executor`方法驱动`Runnable`对象，`submit`方法既可以驱动`Runnable`对象也可以驱动`Callable`对象
 
 ### SingleThreadExecutor
-```SingleThreadExecutor```可以保证任意时刻在任何线程中都只有唯一的任务在运行，如果想SingleThreadExecutor提交多个任务，那么任务会被放入悬挂任务队列。序列化执行任务可以消除资源同步的问题。因为这个执行器不是一个池（pool），所以名字不是SingleThreadPool。
+`SingleThreadExecutor`可以保证任意时刻在任何线程中都只有唯一的任务在运行，如果想SingleThreadExecutor提交多个任务，那么任务会被放入任务队列。串行执行任务可以消除资源同步的问题。因为这个执行器不是一个池（pool），所以名字不是SingleThreadPool。
 
 ### CachedThreadPool
-```CachedThreadPool```在程序执行过程中通常创建与所需数量相同的线程，然后在它回收旧线程时停止创建新线程。
+`CachedThreadPool`在程序执行过程中通常创建与所需数量相同的线程，然后在它回收旧线程时停止创建新线程。
+
+>  `CachedThreadPool` 是如何做到提交一个任务就创建一个线程执行任务的呢，普通的`ThreadPoolExecutor`创建好`corePoolSize`数的线程之后，只会在工作队列被填满之后才会再继续创建线程执行任务。原因在`CachedThreadPool`使用的工作队列是同步队列`SynchronousQueue`,这种队列的大小是1，只会将生产者的任务交给消费者后才会接收下一个生产者的数据。
+
+`java.util.concurrent.Executors`
+```Java
+public static ExecutorService newCachedThreadPool() {
+	return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+									60L, TimeUnit.SECONDS,
+									new SynchronousQueue<Runnable>());
+}
+```
 
 ### FixedThreadPool
-```FixedThreadPool```数量为1会变成SingleThreadExecutor。
+`FixedThreadPool`数量为1会变成SingleThreadExecutor。
 
 ### ScheduledThreadPool
-```ScheduledThreadPool```用来替代`java.util.Timer`，数量为1会变成SingleThreadScheduledExecutor。
+`ScheduledThreadPool`用来替代`java.util.Timer`，数量为1会变成SingleThreadScheduledExecutor。
 
 ```Java
 TimerTask task = new TimerTask() {
@@ -221,11 +234,11 @@ public void execute(Runnable command) {
 	    if (! isRunning(recheck) && remove(command))
 		reject(command);
 	    else if (workerCountOf(recheck) == 0)
-                // 防止了SHUTDOWN状态下没有活动线程了，但是队列里还有任务没执行这种特殊情况。
-                // 添加一个null任务是因为SHUTDOWN状态下，线程池不再接受新任务
+		// 防止了SHUTDOWN状态下没有活动线程了，但是队列里还有任务没执行这种特殊情况。
+		// 添加一个null任务是因为SHUTDOWN状态下，线程池不再接受新任务
 		addWorker(null, false);
 	}
-	//如果添加到workQueue，说明线程池已经shutdown或者线程池已经达到饱和状态，所以reject这个任务
+	//如果添加到workQueue失败，说明线程池已经shutdown或者线程池已经达到饱和状态，所以reject这个任务
 	else if (!addWorker(command, false))
 	    reject(command);
 }
@@ -234,15 +247,19 @@ public void execute(Runnable command) {
 创建自己的线程池：
 ```Java
 //创建线程或线程池时请指定有意义的线程名称，方便出错时回溯
-ThreadFactory factory = new ThreadFactoryBuilder().setDaemon(true).setNameFormat("consumer-queue-%d").setPriority(Thread.MAX_PRIORITY).build();
+ThreadFactory factory = new ThreadFactoryBuilder()
+							.setDaemon(true)
+							.setNameFormat("consumer-queue-%d")
+							.setPriority(Thread.MAX_PRIORITY)
+							.build();
 ThreadPoolExecutor executor = new ThreadPoolExecutor(5,10,60,TimeUnit.MINUTES,new ArrayBlockingQueue<Runnable>(100),factory);
 executor.execute();
 executor.shutdown();
 ```
 
 ## ThreadPoolExecutor与Thread相比的优势
-1. 任务定义与任务执行机制解耦
-2. 重用线程，减少线程创建与销毁的***巨大***开销
+1. 线程池将任务定义与任务执行机制解耦
+2. 线程池可以重用线程，减少线程创建与销毁的***巨大***开销
 
 ## CountDownLatch
 compare with **object.join()**
@@ -253,12 +270,14 @@ compare with **object.join()**
 for(;;){
   // n 数量
   CountDownLatch latch = new CountDownLatch(n);
-  for(int i = 0; i < n; i++)
+  for(int i = 0; i < n; i++){
 	// 也可以使用object.join()实现此效果
     Future<Integer> result = executor.submit(()->{
 		latch.countDown();
 		return i;
-	});  
+	});
+  }	
+  latch.await();
 }
 ```
 
@@ -307,18 +326,17 @@ public static void main(String[] args) throws Exception {
 
 ```
 # Thread Pool
+只有当任务都是*同类型的*并且*相互独立*时，线程池的性能才能达到最佳。
 
 ## Thread Starvation DeadLock
-在线程池中如果任务依赖其他任务，可能会产生死锁。
-
-只有当任务都是*同类型的*并且*相互独立*时，线程池的性能才能达到最佳。
+在线程池中如果任务依赖其他任务，可能会产生死锁。因为可能存在被依赖的任务获取不到线程资源，导致两者一直处于等待。
 
 ## 实现资源最优利用率
 ### CPU（计算）密集型任务
-线程池大小=cpu_core_size + 1
+线程池大小=	`cpu_core_size`+ 1
 
 ### 包括I/O或阻塞操作任务
-线程池大小=cpu_core_size*target_cpu_utilization*(1+w/c)
+线程池大小=`cpu_core_size`*`target_cpu_utilization`*(1+`w/c`)
 
 w/c:ratio of wait time to compute time
 
@@ -330,6 +348,7 @@ w/c:ratio of wait time to compute time
 2. `DiscardPolicy`
 3. `DiscardOldestPolicy`
 4. `CallerRunsPolicy`
+
 ```Java
 // 调用者(任务生产者)执行任务策略
 /**

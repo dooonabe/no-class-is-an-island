@@ -13,6 +13,7 @@
 - 无同步:`ThreadLocal`
 
 ## 线程死锁
+
 ### 产生死锁的必要条件
 
 - 互斥
@@ -29,27 +30,76 @@
 
 存在一个进程链，使得每个进程都占有下一个进程所需的至少一种资源。
 
+#### 两种常见的死锁
+- 获取锁的顺序不一致
+
+- 资源饥饿
+
+使用`ThreadPoolExecutor`或者`Executors`创建的线程池，当且仅当`workQueue`被填满时，才会创建大于`corePoolSize`且小于`maxPoolSize`的新的线程。
+
+那么如果当前线程池中所有的线程提交依赖任务到线程池，并且没有填满工作队列，那么线程池是不会创建新的线程来执行依赖任务的，那么线程池就有可能一直停在当前的状态，造成死锁。
+
 ## 线程间的协作
 
-### wait
-Causes the current thread to wait until another thread invokes the **{@link java.lang.Object#notify()}** method or the **{@link java.lang.Object#notifyAll()}** method **for this object**. In other words, this method behaves exactly as if it simply performs the call {@code wait(0)}.
+```java
+java.lang.Object
 
-### notify
-Wakes up a single thread that is waiting **on this object's monitor**. If any threads are waiting on this object, one of them is chosen to be awakened. The choice is arbitrary and occurs at the discretion of the implementation. A thread waits on an object's monitor by calling one of the {@code wait} methods.
+// Causes the current thread to wait until another thread invokes the **{@link java.lang.Object#notify()}** method or the **{@link java.lang.Object#notifyAll()}** method **for this object**. In other words, this method behaves exactly as if it simply performs the call {@code wait(0)}.
+public final native void wait(long timeout) throws InterruptedException;
 
-### notifyAll
-Wakes up all threads that are waiting **on this object's monitor**. A thread waits on an object's monitor by calling one of the {@code wait} methods.
 
-### sleep
+// Wakes up a single thread that is waiting **on this object's monitor**. If any threads are waiting on this object, one of them is chosen to be awakened. The choice is arbitrary and occurs at the discretion of the implementation. A thread waits on an object's monitor by calling one of the {@code wait} methods.
+public final native void notify();
 
-Causes the currently executing thread to sleep (temporarily cease execution) for the specified number of milliseconds, subject to the precision and accuracy of system timers and schedulers. **The thread does not lose ownership of any monitors(不会释放任何锁)**.
 
-### yield
-不释放锁
-A hint to the scheduler that the current thread is willing to yield its current use of a processor. The scheduler is free to ignore this hint. **And The thread does not lose ownership of any monitors(不会释放任何锁)**.
+// Wakes up all threads that are waiting **on this object's monitor**. A thread waits on an object's monitor by calling one of the {@code wait} methods.
+public final native void notifyAll();
+```
 
-### join
-let main thread waits for this thread to die.
+
+```Java
+java.lang.Thread
+
+// Causes the currently executing thread to sleep (temporarily cease execution) for the specified number of milliseconds, subject to the precision and accuracy of system timers and schedulers. **The thread does not lose ownership of any monitors(不会释放任何锁)**.
+public static native void sleep(long millis) throws InterruptedException;
+
+
+// 不释放锁
+// A hint to the scheduler that the current thread is willing to yield its current use of a processor. The scheduler is free to ignore this hint. **And The thread does not lose ownership of any monitors(不会释放任何锁)**.
+public static native void yield();
+
+
+// let main thread waits for this thread to die.
+public final void join() throws InterruptedException {
+    join(0);
+}
+
+
+public final synchronized void join(long millis)
+throws InterruptedException {
+    long base = System.currentTimeMillis();
+    long now = 0;
+
+    if (millis < 0) {
+        throw new IllegalArgumentException("timeout value is negative");
+    }
+
+    if (millis == 0) {
+        while (isAlive()) {
+            wait(0);
+        }
+    } else {
+        while (isAlive()) {
+            long delay = millis - now;
+            if (delay <= 0) {
+                break;
+            }
+            wait(delay);
+            now = System.currentTimeMillis() - base;
+        }
+    }
+}
+```
 
 ```Java
 public static void main(String[] args) throws Exception {
@@ -64,7 +114,7 @@ public static void main(String[] args) throws Exception {
             }
             System.out.println("inner thread die");
         });
-    // 后台线程: 主线程运行完毕，程序即会退出；非后台线程：主线程运行完，并不会立即退出，而会等待非daemon线程运行完毕后程序退出 
+    // 设置为后台线程: 主线程运行完毕，程序即会退出；设置为非后台线程：主线程运行完，并不会立即退出，而会等待非daemon线程运行完毕后程序退出 
     thread.setDaemon(true);
     thread.start();
     // 子线程join()表示：主线程需等待子线程运行完毕，才能继续向下执行
@@ -75,39 +125,59 @@ public static void main(String[] args) throws Exception {
 
 ```Java
 // wait notify 实现有界缓存
+public class DemoBlockingQueue {
 
+    final Object[] queues;
+
+    private int count = 0;
+
+    public DemoBlockingQueue(int size) {
+        this.queues = new Object[size];
+    }
+
+
+    public void put(Object o) throws InterruptedException {
+        synchronized (this) {
+            while (count == queues.length) {
+                wait();
+            }
+            queues[count] = o;
+            count++;
+            notifyAll();
+        }
+    }
+
+
+    public Object take() throws InterruptedException {
+        synchronized (this) {
+            while (count == 0) {
+                wait();
+            }
+            Object o = queues[count-1];
+            count--;
+            notifyAll();
+            return o;
+        }
+    }
+}
 ```
 
 ## 线程开销
 
-1. 上下文切换
-2. 内存同步
+1. 创建、销毁
+2. 上下文切换
+3. 内存同步
 
 `synchronized`,`volatile`使用了内存屏障。内存屏障可以刷新缓存，使缓存无效，刷新硬件的写缓存，以及停止执行管道以及禁止指令的重排序。
 
-现代的JVM会对锁进行消除优化：
-
-```Java
-//同步锁只能由一个线程获得
-synchronized(new Object()){
-    // do something
-}
-```
-```Java
-//JVM escape analysis找出不会发布到堆的本地对象引用，进行锁消除
-public String getStr(){
-    // Vector是同步容器
-    List<String> result = new Vector<String>();
-    result.add("U2");
-    return result.toString();
-}
-```
-3. 阻塞
+4. 阻塞
 
 发生阻塞之后，JVM可以采用**自旋等待**或者**上下文切换**来处理被阻塞的线程。
 ```Java
 // 排号(ticket)自旋锁的实现
-// 非适应性自选
+// do{} while(!unsafe.compareAndSwap(var1,var2,var3,var4))也是一种自旋
+// 非适应性自旋
+// 公平锁(ReentrantLock.FairSync)
 
 private final Queue taskQueue = new ArrayBlockingQueue();
 
@@ -117,13 +187,9 @@ public synchronized void ticket(){
     queue.poll();
 }
 
-
-
-
-
 ```
 
-### 减少锁竞争(开销)
+## 减少锁竞争(开销)
 1. 减少锁的持有时间
 
 缩小同步块代码，将实际不需同步执行的代码移除同步块，提高伸缩性。
@@ -154,9 +220,27 @@ final long sumCount() {
 }
 ```
 
+同时现代的JVM会对锁进行消除优化：
+
+```Java
+//同步锁只能由一个线程获得
+synchronized(new Object()){
+    // do something
+}
+```
+```Java
+//JVM escape analysis找出不会发布到堆的本地对象引用，进行锁消除
+public String getStr(){
+    // Vector是同步容器
+    List<String> result = new Vector<String>();
+    result.add("U2");
+    return result.toString();
+}
+```
+
 3. 使用带有协调机制的独占锁
 
-并发容器，读写锁，不可变对象，原子变量，消除同步变量(ThreadLocal)。
+尝试使用并发容器，读写锁，不可变对象，原子变量，消除同步变量(ThreadLocal)等更优化的工具。
 
 
 ## 实战
