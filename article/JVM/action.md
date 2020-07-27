@@ -11,6 +11,9 @@
 
 ### 原因描述
 you create your serialized data with a given library A (version X), then you try to read this data with the same library A (but version Y)
+
+提交JStorm任务之后，nimbus会解析任务对象，并将任务对象***序列化***之后传输到supervisor节点，supervisor会***反序列***任务对象。那么两者是否使用了相同版本的类呢。
+
 ### 思路
 1. [《深入理解Java虚拟机》](https://book.douban.com/subject/24722612/)在介绍老版本tomcat的类加载实现中，介绍了tomcat如何兼容多spring版本——也就是隔离不通版本的相同类(相同类路径的类)
 2. jps -lmv: 查看完整的java启动命令
@@ -19,14 +22,21 @@ you create your serialized data with a given library A (version X), then you try
 
 ## GC对array对象的影响最小 
 
-
 ## 如何降低Spring Cloud工程的jar包大小以及去除无效依赖让heap变小
 1. 类只有被用到才会被虚拟机初始化(加载到方法区)
 2. 使用`mvn dependency:analyze`分析依赖情况，手动删去无效的依赖引用
 3. 源码包与依赖包分离，启动源码包时用classpath指定依赖包目录
 ```Shell
 java –classpath ... [same as (java -cp ...)]
-java -Dloader.path= ...
+java -jar -Dloader.path= ...
+```
+```Shell
+>javac Demo.java
+
+>java Demo
+错误: 找不到或无法加载主类 Demo
+
+>java -cp "." Demo
 ```
 
 ## 参考
