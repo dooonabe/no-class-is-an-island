@@ -120,6 +120,38 @@ public interface Lock {
 
 `lockInterruptibly`,`tryLock`
 
+sychronized是无条件的锁获取模式，只要有不一致的锁顺序就会发生**死锁**，一旦产生死锁就只能重启程序了。
+```Java
+public void transferMoney(){
+    sychronized(A){
+        sychronized(B){
+            // do some transfer
+        }
+    }
+}
+```
+
+ReentrantLock使用可定时或可轮询的锁获取模式，避免**死锁**的产生。
+```Java
+public void transferMoney(){
+    while(true){
+        if(A.lock.tryLock()){
+            try{
+                if(B.lock.tryLock()){
+                    try{
+                        // do some transfer
+                    } finally{
+                        B.locl.unlock();
+                    }
+                }
+            } finally{
+                A.lock.unlock();
+            }
+        }
+    }
+}
+```
+
 - 公平锁
 ```Java
 /**
@@ -157,44 +189,8 @@ static final class FairSync extends Sync {
     }
 }
 ```
+- 非块结构加锁
+
+`synchronized`要求锁的释放只能在与获得锁所在的虚拟机栈栈帧相同的栈帧中进行，而`Lock`可以跨方法(non-block-strunctured)获得锁与释放锁
+
 - 锁绑定多个条件
-
-// todo
-
-## synchronized vs ReentrantLock
-
-1. 死锁
-
-sychronized是无条件的锁获取模式，只要有不一致的锁顺序就会发生死锁，一旦产生死锁就只能重启程序了。
-```Java
-public void transferMoney(){
-    sychronized(A){
-        sychronized(B){
-            // do some transfer
-        }
-    }
-}
-```
-
-ReentrantLock使用可定时或可轮询的锁获取模式，避免死锁的产生。
-```Java
-public void transferMoney(){
-    while(true){
-        if(A.lock.tryLock()){
-            try{
-                if(B.lock.tryLock()){
-                    try{
-                        // do some transfer
-                    } finally{
-                        B.locl.unlock();
-                    }
-                }
-            } finally{
-                A.lock.unlock();
-            }
-        }
-    }
-}
-```
-
-
