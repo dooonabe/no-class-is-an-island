@@ -16,11 +16,12 @@
 
 
 ### 并发
+- [线程之间](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread.md)
 - [线程安全性](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread%20safety.md)
 - [sychronized与ReentrantLock](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/synchronized%20ReentrantLock.md)
 - [volatile](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/volatile.md)
 - [thread pool](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread%20pool.md)
-- [线程之间](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/thread.md)
+- [条件等待](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/BlockingQueue.md)
 - [分布式锁](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/distributed%20lock.md)
 - [同步工具]()
 - [实战](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Cocurrent/Action.md)
