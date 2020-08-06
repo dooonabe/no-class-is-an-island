@@ -259,10 +259,15 @@ public class DemoBlockingQueueWithSemaphore {
     // 与上面加锁模式下不同，因为加锁就保证了可见性
     private volatile int count = 0;
 
+    // 实现线程安全的take方法
+    private final Semaphore takeSemaphore;
+
+
     public DemoBlockingQueueWithSemaphore(int size) {
         // 可以定义公平与非公平队列
         semaphore = new Semaphore(size);
         this.queues = new Object[size];
+        takeSemaphore = new Semaphore(1);
     }
 
     public void put(Object o) throws InterruptedException {
@@ -274,10 +279,19 @@ public class DemoBlockingQueueWithSemaphore {
 
 
     public Object take() throws InterruptedException {
-        Object o = queues[count - 1];
-        count--;
-        semaphore.release();
-        return o;
+        takeSemaphore.acquire();
+        try {
+            while (count == 0) {
+                // wait 10 seconds
+                TimeUnit.SECONDS.sleep(10);
+            }
+            Object o = queues[count - 1];
+            count--;
+            semaphore.release();
+            return o;
+        } finally {
+            takeSemaphore.release();
+        }
     }
 }
 ```
