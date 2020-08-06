@@ -86,9 +86,12 @@ thread1:take element
 ```
 
 ## Lock unfair/fair
+
 `java.util.concurrent.locks.Condition`中的**await**,**signal**,**signalAll**与`java.lang.Object`中的**wait**,**notify**,**notifyAll**相对应，在使用`Condition`时要使用正确的方法。
 
 相较于上面的内置条件队列，使用`Condition`可以拆分条件谓词对应的队列，唤醒线程时可以避免不必要的线程上下文切换的消耗。
+
+`java.util.concurrent.ArrayBlockingQueu`的设计思路就是一个锁两个队列。下面为简版的实现过程。
 
 ```Java
 public class DemoBlockingQueueWithLock {
@@ -238,5 +241,43 @@ public interface Condition {
      * Wakes up all waiting threads.
      */
     void signalAll();
+}
+```
+
+
+## Semaphore unfair/fair
+无论使用内置锁还是显示锁，都需要小心再小心。尽可能使用JDK提供的并发工具是一个好办法。
+
+Semaphore就像一个门卫，只有门卫允许进入门，才能继续进行操作。上面提到的条件谓词也是进门的许可。所以可以使用Semaphore替代条件谓词。
+
+```Java
+public class DemoBlockingQueueWithSemaphore {
+    private final Semaphore semaphore;
+
+    private final Object[] queues;
+    // 索引定义为volatile
+    // 与上面加锁模式下不同，因为加锁就保证了可见性
+    private volatile int count = 0;
+
+    public DemoBlockingQueueWithSemaphore(int size) {
+        // 可以定义公平与非公平队列
+        semaphore = new Semaphore(size);
+        this.queues = new Object[size];
+    }
+
+    public void put(Object o) throws InterruptedException {
+        // 获取不到许可的线程，会在此处阻塞
+        semaphore.acquire();
+        queues[count] = o;
+        count++;
+    }
+
+
+    public Object take() throws InterruptedException {
+        Object o = queues[count - 1];
+        count--;
+        semaphore.release();
+        return o;
+    }
 }
 ```
