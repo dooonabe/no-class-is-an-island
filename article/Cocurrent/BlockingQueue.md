@@ -1,9 +1,9 @@
 # BlockingQueue
 
-条件等待的三元关系：加锁（持有条件队列相关的锁），条件谓词，条件变量。
+条件等待的三元关系：加锁（持有条件队列相关的锁），条件谓词，条件变量。管理状态依赖性的机制必须与确保状态一致性的机制关联起来。
 对于阻塞(有界)队列来说，条件谓词有两个：队列为空不允许take，队列已满不允许put。
 
-## synchronized unfair
+## synchronized(内置条件队列与内置锁) unfair
 
 ```Java
 public class DemoBlockingQueue {
