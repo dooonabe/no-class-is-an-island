@@ -6,6 +6,7 @@
 - [Iterable与Iterator](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Object/Iterable%20Iterator.md)
 - [反射](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Object/reflect.md)
 - [函数式编程](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/ProgrammingModel/Functional.md)
+- [值传递](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Object/pass%20by%20value.md)
 
 ### 集合
 - [fail-fast机制](https://github.com/dooonabe/no-class-is-an-island/blob/master/article/Collection/fail-fast.md)
