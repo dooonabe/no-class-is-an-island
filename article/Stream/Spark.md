@@ -29,3 +29,6 @@ action是从RDD返回值
 - 如果驱动程序的`main`方法退出，或者调用`SparkContext.stop()`,那么驱动程序就会终止执行进程并从集群管理器释放资源
 
 
+## 参考
+- [Spark性能优化指南——基础篇](https://tech.meituan.com/2016/04/29/spark-tuning-basic.html)
+- [Spark性能优化指南——高级篇](https://tech.meituan.com/2016/05/12/spark-tuning-pro.html)
