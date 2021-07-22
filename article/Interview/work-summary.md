@@ -16,8 +16,9 @@
 3. [Mybatis源码阅读](https://my.oschina.net/wangzhenchao/blog/4307101)
 4. Mybatis连接多数据源
 5. Database View
-6. git clone使用ssh协议
-7. Git Commit说明规范化
+6. rm 指向文件夹的软连接时不要加最后的/，加上/会删掉整个目标文件夹
+7. git clone使用ssh协议
+8. Git Commit说明规范化
 ```
 feat：新功能（feature）
 fix：修补bug
@@ -44,16 +45,21 @@ git branch --set-upstream-to=origin/master master
 6. Filter Interceptor
 7. Maven: properties/dependencyManagement
 8. docker kubernetes
+9. windows base中启动nacos命令：bash -f ./startup.sh -m standalone
 
 ## ETL
 1. 如何动态加载jar
 2. 内部类会被单独编译为A$B.class
 3. 可视化任务编排与任务数据解析:DAG的遍历
 4. CountDownLatch ThreadLocal
-5. XXL RPC
-6. 自定义反序列化实现：com.alibaba.fastjson.parser.deserializer.ObjectDeserializer
-7. 查找并读取classpath下的文件：Files.readAllLines(Paths.get(this.getClass().getResource("res.txt").toURI()), Charset.defaultCharset())
-8. flink
+```
+会话 -> 事务
+在分层架构中，有些变量或对象确实需要跨越分层工作（比如本文示例中的 Connection/Session/Transaction), 你可能需一种 “上下文”(或者说是一种跨层的作用域) 来存放这种变量或是对象，从而避免以 “参数” 的形式在层间传递它，线程局部变量 ThreadLocal 可能正是你需要。
+```
+6. XXL RPC
+7. 自定义反序列化实现：com.alibaba.fastjson.parser.deserializer.ObjectDeserializer
+8. 查找并读取classpath下的文件：Files.readAllLines(Paths.get(this.getClass().getResource("res.txt").toURI()), Charset.defaultCharset())
+9. flink
 
 ## Article
 - [Mybatis与fastjson是如何处理特定类型的转化]()
